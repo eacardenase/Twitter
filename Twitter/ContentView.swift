@@ -12,11 +12,7 @@ struct ContentView: View {
         TabView {
             Tab("Home", systemImage: "house") {
                 NavigationStack {
-                    List {
-
-                    }
-                    .navigationTitle("Home")
-                    .navigationBarTitleDisplayMode(.inline)
+                    FeedView()
                 }
             }
 
