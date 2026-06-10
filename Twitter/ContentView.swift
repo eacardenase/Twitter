@@ -20,11 +20,9 @@ struct ContentView: View {
 
             Tab("Search", systemImage: "magnifyingglass") {
                 NavigationStack {
-                    List {
-
-                    }
-                    .navigationTitle("Search")
-                    .navigationBarTitleDisplayMode(.inline)
+                    SearchView()
+                        .navigationTitle("Search")
+                        .navigationBarTitleDisplayMode(.inline)
                 }
             }
 
