@@ -9,22 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavigationStack {
-            TabView {
-                Tab("Home", systemImage: "house") {
+        TabView {
+            Tab("Home", systemImage: "house") {
+                NavigationStack {
                     FeedView()
                 }
+            }
 
-                Tab("Search", systemImage: "magnifyingglass") {
+            Tab("Search", systemImage: "magnifyingglass") {
+                NavigationStack {
                     SearchView()
                 }
+            }
 
-                Tab("Messages", systemImage: "envelope") {
+            Tab("Messages", systemImage: "envelope") {
+                NavigationStack {
                     ConversationsView()
                 }
             }
-            .navigationTitle("Home")
-            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }

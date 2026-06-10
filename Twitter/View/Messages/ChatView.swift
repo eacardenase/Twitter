@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     @State private var textInput = ""
+    @Binding var tabbarVisibility: Visibility
 
     var body: some View {
         VStack {
@@ -28,11 +29,19 @@ struct ChatView: View {
         }
         .navigationTitle("venom")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            tabbarVisibility = .hidden
+        }
+        .onDisappear {
+            withAnimation {
+                tabbarVisibility = .visible
+            }
+        }
     }
 }
 
 #Preview {
     NavigationStack {
-        ChatView()
+        ChatView(tabbarVisibility: .constant(.hidden))
     }
 }
