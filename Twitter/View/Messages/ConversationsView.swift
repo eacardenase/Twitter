@@ -13,7 +13,12 @@ struct ConversationsView: View {
             ScrollView {
                 VStack {
                     ForEach(0..<10) { _ in
-                        ConversationCellView()
+                        NavigationLink {
+                            ChatView()
+                        } label: {
+                            ConversationCellView()
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
