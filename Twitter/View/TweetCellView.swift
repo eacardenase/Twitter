@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TweetCellView: View {
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 16) {
                 Image(.batman)
                     .resizable()
@@ -39,7 +39,6 @@ struct TweetCellView: View {
                 }
             }
             .padding(.bottom, 8)
-            .padding(.trailing)
 
             HStack {
                 Button {
@@ -78,10 +77,10 @@ struct TweetCellView: View {
             }
             .font(.title3)
             .foregroundStyle(.secondary)
-            .padding(.horizontal)
 
             Divider()
         }
+        .padding(.top)
     }
 }
 
