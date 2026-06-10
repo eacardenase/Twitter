@@ -13,7 +13,7 @@ struct ActionButton: View {
 
     var body: some View {
         Button {
-            //
+            action()
         } label: {
             Image(systemName: systemImageName)
                 .resizable()

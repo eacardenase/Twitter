@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ConversationsView: View {
+    @State private var showSearchViewSheet = false
+
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
@@ -28,7 +30,12 @@ struct ConversationsView: View {
             .padding()
 
             ActionButton(systemImageName: "envelope.open") {
-                // TODO: Implement action
+                showSearchViewSheet = true
+            }
+        }
+        .sheet(isPresented: $showSearchViewSheet) {
+            NavigationStack {
+                SearchView()
             }
         }
     }
