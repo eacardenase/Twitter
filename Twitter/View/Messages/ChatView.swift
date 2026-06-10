@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct ChatView: View {
+    @State private var textInput = ""
+
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(0..<9) { _ in
-                    Text("Message Cell")
+        VStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(0..<9) { _ in
+                        Text("Chat bubble")
+                    }
                 }
+            }
+
+            Divider()
+
+            MessageInputView(text: $textInput) {
+                // TODO: Send message
             }
         }
         .navigationTitle("venom")
