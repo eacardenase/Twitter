@@ -18,6 +18,7 @@ struct SearchView: View {
                 }
             }
         }
+        .scrollIndicators(.never)
         .padding(.horizontal)
         .searchable(text: $searchText)
         .navigationTitle("Search")

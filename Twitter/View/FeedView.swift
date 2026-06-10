@@ -18,6 +18,7 @@ struct FeedView: View {
                 }
                 .padding(.horizontal)
             }
+            .scrollIndicators(.never)
 
             ActionButton(systemImageName: "plus") {
                 // TODO: Implement action

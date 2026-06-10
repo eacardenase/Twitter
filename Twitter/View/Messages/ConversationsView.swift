@@ -17,6 +17,7 @@ struct ConversationsView: View {
                     }
                 }
             }
+            .scrollIndicators(.never)
             .navigationTitle("Messages")
             .navigationBarTitleDisplayMode(.inline)
             .padding()
