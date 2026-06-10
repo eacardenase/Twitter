@@ -13,24 +13,8 @@ struct SearchView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(0..<3) { _ in
-                    HStack(alignment: .center) {
-                        Image(.batman)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 56, height: 56)
-                            .clipShape(.circle)
-
-                        VStack(alignment: .leading) {
-                            Text("batman")
-                                .font(.subheadline.bold())
-
-                            Text("Bruce Wayne")
-                                .font(.subheadline)
-                        }
-
-                        Spacer()
-                    }
+                ForEach(0..<10) { _ in
+                    UserCellView()
                 }
             }
         }
