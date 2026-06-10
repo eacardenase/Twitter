@@ -20,6 +20,8 @@ struct SearchView: View {
         }
         .padding(.horizontal)
         .searchable(text: $searchText)
+        .navigationTitle("Search")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 

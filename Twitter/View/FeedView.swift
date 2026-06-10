@@ -16,7 +16,7 @@ struct FeedView: View {
                         TweetCellView()
                     }
                 }
-                .padding()
+                .padding(.horizontal)
             }
 
             Button {
@@ -31,9 +31,13 @@ struct FeedView: View {
             .buttonBorderShape(.circle)
             .padding()
         }
+        .navigationTitle("Home")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
-    FeedView()
+    NavigationStack {
+        FeedView()
+    }
 }
