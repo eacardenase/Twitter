@@ -24,11 +24,7 @@ struct ContentView: View {
 
             Tab("Messages", systemImage: "envelope") {
                 NavigationStack {
-                    List {
-
-                    }
-                    .navigationTitle("Messages")
-                    .navigationBarTitleDisplayMode(.inline)
+                    ConversationsView()
                 }
             }
         }

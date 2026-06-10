@@ -1,35 +1,35 @@
 //
-//  FeedView.swift
+//  MessagesView.swift
 //  Twitter
 //
-//  Created by Edwin Cardenas on 6/5/26.
+//  Created by Edwin Cardenas on 6/10/26.
 //
 
 import SwiftUI
 
-struct FeedView: View {
+struct ConversationsView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
                 VStack {
                     ForEach(0..<10) { _ in
-                        TweetCellView()
+                        ConversationCellView()
                     }
                 }
-                .padding(.horizontal)
             }
+            .navigationTitle("Messages")
+            .navigationBarTitleDisplayMode(.inline)
+            .padding()
 
-            ActionButton(systemImageName: "plus") {
+            ActionButton(systemImageName: "envelope.open") {
                 // TODO: Implement action
             }
         }
-        .navigationTitle("Home")
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
     NavigationStack {
-        FeedView()
+        ConversationsView()
     }
 }
