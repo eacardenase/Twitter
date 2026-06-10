@@ -10,8 +10,13 @@ import SwiftUI
 struct FeedView: View {
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            List {
-
+            ScrollView {
+                VStack {
+                    ForEach(0..<10) { _ in
+                        TweetCellView()
+                    }
+                }
+                .padding()
             }
 
             Button {
@@ -24,15 +29,11 @@ struct FeedView: View {
             }
             .buttonStyle(.borderedProminent)
             .buttonBorderShape(.circle)
+            .padding()
         }
-        .navigationTitle("Home")
-        .navigationBarTitleDisplayMode(.inline)
-        .padding()
     }
 }
 
 #Preview {
-    NavigationStack {
-        FeedView()
-    }
+    FeedView()
 }
