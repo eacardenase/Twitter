@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             TabView {
                 Tab("Home", systemImage: "house") {
                     FeedView()
@@ -27,6 +27,12 @@ struct ContentView: View {
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(for: Conversation.self) { conversation in
+                ChatView(conversation: conversation)
+            }
+            .navigationDestination(for: MockUser.self) { user in
+                Text(user.username)
+            }
         }
     }
 }

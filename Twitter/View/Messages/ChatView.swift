@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ChatView: View {
-    let user: MockUser
+    let conversation: Conversation
     @State private var textInput = ""
 
     var body: some View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(MOCK_MESSAGES) { message in
+                    ForEach(conversation.messages) { message in
                         ChatBubbleView(message: message)
                     }
                 }
@@ -27,7 +27,7 @@ struct ChatView: View {
                 // TODO: Send message
             }
         }
-        .navigationTitle(user.username)
+        .navigationTitle(conversation.user.username)
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
         .scrollIndicators(.never)
@@ -36,6 +36,6 @@ struct ChatView: View {
 
 #Preview {
     NavigationStack {
-        ChatView(user: MOCK_USERS[0])
+        ChatView(conversation: MOCK_CONVERSATIONS[0])
     }
 }

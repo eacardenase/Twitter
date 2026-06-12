@@ -14,7 +14,10 @@ struct SearchView: View {
         ScrollView {
             VStack(spacing: 16) {
                 ForEach(MOCK_USERS) { user in
-                    UserCellView(user: user)
+                    NavigationLink(value: user) {
+                        UserCellView(user: user)
+                    }
+                    .buttonStyle(.plain)
                 }
             }
         }

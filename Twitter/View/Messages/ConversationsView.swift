@@ -8,38 +8,35 @@
 import SwiftUI
 
 struct ConversationsView: View {
-    @Binding var path: NavigationPath
     @State private var showSearchViewSheet = false
+    @Binding var path: NavigationPath
 
     var body: some View {
-        NavigationStack(path: $path) {
-            ZStack(alignment: .bottomTrailing) {
-                ScrollView {
-                    VStack {
-                        ForEach(MOCK_CONVERSATIONS) { conversation in
-                            Button {
-                                path.append(conversation.user)
-                            } label: {
-                                ConversationCellView(conversation: conversation)
-                            }
-                            .buttonStyle(.plain)
+        ZStack(alignment: .bottomTrailing) {
+            ScrollView {
+                VStack {
+                    ForEach(MOCK_CONVERSATIONS) { conversation in
+                        NavigationLink(value: conversation) {
+                            ConversationCellView(conversation: conversation)
                         }
+                        .buttonStyle(.plain)
                     }
-                    .padding()
                 }
-                .scrollIndicators(.never)
-                .navigationTitle("Messages")
-                .navigationBarTitleDisplayMode(.inline)
+                .padding()
+            }
+            .scrollIndicators(.never)
+            .navigationTitle("Messages")
+            .navigationBarTitleDisplayMode(.inline)
 
-                ActionButton(systemImageName: "envelope.open") {
-                    showSearchViewSheet = true
-                }
+            ActionButton(systemImageName: "envelope.open") {
+                showSearchViewSheet = true
             }
-            .sheet(isPresented: $showSearchViewSheet) {
-                NewMessageView(path: $path)
-            }
-            .navigationDestination(for: MockUser.self) { user in
-                ChatView(user: user)
+        }
+        .sheet(isPresented: $showSearchViewSheet) {
+            NewMessageView { user in
+                let conversation = Conversation(user: user, messages: [])
+
+                path.append(conversation)
             }
         }
     }

@@ -10,7 +10,7 @@ import SwiftUI
 struct NewMessageView: View {
     @State private var searchText = ""
     @Environment(\.dismiss) var dismiss
-    @Binding var path: NavigationPath
+    var onUserSelected: (MockUser) -> Void
 
     var body: some View {
         NavigationStack {
@@ -20,7 +20,9 @@ struct NewMessageView: View {
                         Button {
                             dismiss()
 
-                            path.append(user)
+                            DispatchQueue.main.async {
+                                onUserSelected(user)
+                            }
                         } label: {
                             UserCellView(user: user)
                         }
@@ -34,9 +36,10 @@ struct NewMessageView: View {
             .navigationTitle("New Message")
             .navigationBarTitleDisplayMode(.inline)
         }
+
     }
 }
 
 #Preview {
-    NewMessageView(path: .constant(.init()))
+    NewMessageView { print($0.username) }
 }
