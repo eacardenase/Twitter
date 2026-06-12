@@ -15,8 +15,10 @@ struct ChatView: View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(0..<9) { _ in
-                        Text("Chat bubble")
+                    ForEach(0..<19) { _ in
+                        ChatBubble(
+                            isFromCurrentUser: Int.random(in: 0...1) == 1
+                        )
                     }
                 }
             }
@@ -29,6 +31,8 @@ struct ChatView: View {
         }
         .navigationTitle("venom")
         .navigationBarTitleDisplayMode(.inline)
+        .padding(.horizontal)
+        .scrollIndicators(.never)
         .onAppear {
             tabbarVisibility = .hidden
         }
