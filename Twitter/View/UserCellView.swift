@@ -8,20 +8,22 @@
 import SwiftUI
 
 struct UserCellView: View {
+    let user: MockUser
+
     var body: some View {
         HStack(spacing: 16) {
-            Image(.venom10)
+            Image(user.image)
                 .resizable()
                 .scaledToFill()
                 .frame(width: 56, height: 56)
                 .clipShape(.circle)
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("venom")
+                Text(user.username)
                     .font(.subheadline)
                     .fontWeight(.semibold)
 
-                Text("Eddie Brock")
+                Text(user.name)
             }
 
             Spacer()
@@ -30,5 +32,5 @@ struct UserCellView: View {
 }
 
 #Preview {
-    UserCellView()
+    UserCellView(user: MOCK_USERS[0])
 }

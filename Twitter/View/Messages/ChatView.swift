@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ChatView: View {
+    let user: MockUser
     @State private var textInput = ""
-    @Binding var tabbarVisibility: Visibility
 
     var body: some View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     ForEach(MOCK_MESSAGES) { message in
-                        ChatBubble(message: message)
+                        ChatBubbleView(message: message)
                     }
                 }
             }
@@ -27,23 +27,15 @@ struct ChatView: View {
                 // TODO: Send message
             }
         }
-        .navigationTitle("venom")
+        .navigationTitle(user.username)
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
         .scrollIndicators(.never)
-        .onAppear {
-            tabbarVisibility = .hidden
-        }
-        .onDisappear {
-            withAnimation {
-                tabbarVisibility = .visible
-            }
-        }
     }
 }
 
 #Preview {
     NavigationStack {
-        ChatView(tabbarVisibility: .constant(.hidden))
+        ChatView(user: MOCK_USERS[0])
     }
 }

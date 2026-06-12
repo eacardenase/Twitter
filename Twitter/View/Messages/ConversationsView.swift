@@ -8,36 +8,38 @@
 import SwiftUI
 
 struct ConversationsView: View {
+    @Binding var path: NavigationPath
     @State private var showSearchViewSheet = false
-    @State private var tabbarVisibility = Visibility.visible
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                VStack {
-                    ForEach(0..<20) { _ in
-                        NavigationLink {
-                            ChatView(tabbarVisibility: $tabbarVisibility)
-                        } label: {
-                            ConversationCellView()
+        NavigationStack(path: $path) {
+            ZStack(alignment: .bottomTrailing) {
+                ScrollView {
+                    VStack {
+                        ForEach(MOCK_CONVERSATIONS) { conversation in
+                            Button {
+                                path.append(conversation.user)
+                            } label: {
+                                ConversationCellView(conversation: conversation)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
+                    .padding()
                 }
-                .padding()
-            }
-            .scrollIndicators(.never)
-            .navigationTitle("Messages")
-            .navigationBarTitleDisplayMode(.inline)
+                .scrollIndicators(.never)
+                .navigationTitle("Messages")
+                .navigationBarTitleDisplayMode(.inline)
 
-            ActionButton(systemImageName: "envelope.open") {
-                showSearchViewSheet = true
+                ActionButton(systemImageName: "envelope.open") {
+                    showSearchViewSheet = true
+                }
             }
-        }
-        .toolbar(tabbarVisibility, for: .tabBar)
-        .sheet(isPresented: $showSearchViewSheet) {
-            NavigationStack {
-                SearchView()
+            .sheet(isPresented: $showSearchViewSheet) {
+                NewMessageView(path: $path)
+            }
+            .navigationDestination(for: MockUser.self) { user in
+                ChatView(user: user)
             }
         }
     }
@@ -45,6 +47,6 @@ struct ConversationsView: View {
 
 #Preview {
     NavigationStack {
-        ConversationsView()
+        ConversationsView(path: .constant(.init()))
     }
 }

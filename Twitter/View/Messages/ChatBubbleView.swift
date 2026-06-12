@@ -1,5 +1,5 @@
 //
-//  ChatBubble.swift
+//  ChatBubbleView.swift
 //  Twitter
 //
 //  Created by Edwin Cardenas on 6/12/26.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ChatBubble: View {
+struct ChatBubbleView: View {
     let message: MockMessage
     let cornerRadius: CGFloat = 16
 
@@ -41,10 +41,14 @@ struct ChatBubble: View {
                         topTrailingRadius: cornerRadius,
                     )
                 )
+
+            if !message.isFromCurrentUser {
+                Spacer()
+            }
         }
     }
 }
 
 #Preview {
-    ChatBubble(message: MOCK_MESSAGES[1])
+    ChatBubbleView(message: MOCK_MESSAGES[0])
 }

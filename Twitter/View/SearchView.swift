@@ -13,8 +13,8 @@ struct SearchView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(0..<10) { _ in
-                    UserCellView()
+                ForEach(MOCK_USERS) { user in
+                    UserCellView(user: user)
                 }
             }
         }

@@ -8,17 +8,19 @@
 import SwiftUI
 
 struct ConversationCellView: View {
+    let conversation: Conversation
+
     var body: some View {
         VStack {
             HStack(spacing: 16) {
-                Image(.venom10)
+                Image(conversation.user.image)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 56, height: 56)
                     .clipShape(.circle)
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("venom")
+                    Text(conversation.user.username)
                         .font(.subheadline)
                         .fontWeight(.semibold)
 
@@ -37,5 +39,5 @@ struct ConversationCellView: View {
 }
 
 #Preview {
-    ConversationCellView()
+    ConversationCellView(conversation: MOCK_CONVERSATIONS[0])
 }

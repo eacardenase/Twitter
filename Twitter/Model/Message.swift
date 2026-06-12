@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct MockMessage: Identifiable {
+struct MockMessage: Identifiable, Hashable {
     let id: String = UUID().uuidString
     let image: ImageResource
     let text: String
