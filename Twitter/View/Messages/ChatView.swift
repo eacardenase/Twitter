@@ -15,10 +15,8 @@ struct ChatView: View {
         VStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    ForEach(0..<19) { _ in
-                        ChatBubble(
-                            isFromCurrentUser: Int.random(in: 0...1) == 1
-                        )
+                    ForEach(MOCK_MESSAGES) { message in
+                        ChatBubble(message: message)
                     }
                 }
             }

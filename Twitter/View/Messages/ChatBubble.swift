@@ -8,41 +8,43 @@
 import SwiftUI
 
 struct ChatBubble: View {
-    var isFromCurrentUser: Bool
+    let message: MockMessage
     let cornerRadius: CGFloat = 16
 
     var body: some View {
-        HStack {
-            if isFromCurrentUser {
+        HStack(alignment: .bottom) {
+            if message.isFromCurrentUser {
                 Spacer()
+            } else {
+                Image(message.image)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
+                    .clipShape(.circle)
             }
 
-            Text("Chat bubble")
+            Text(message.text)
                 .padding()
-                .foregroundStyle(isFromCurrentUser ? .white : .black)
+                .foregroundStyle(message.isFromCurrentUser ? .white : .black)
                 .background(
-                    isFromCurrentUser
+                    message.isFromCurrentUser
                         ? Color.blue.gradient
-                        : Color(uiColor: .systemGray3).gradient
+                        : Color(.systemGray5).gradient
                 )
                 .clipShape(
                     UnevenRoundedRectangle(
                         topLeadingRadius: cornerRadius,
-                        bottomLeadingRadius: isFromCurrentUser
+                        bottomLeadingRadius: message.isFromCurrentUser
                             ? cornerRadius : .zero,
-                        bottomTrailingRadius: isFromCurrentUser
+                        bottomTrailingRadius: message.isFromCurrentUser
                             ? .zero : cornerRadius,
                         topTrailingRadius: cornerRadius,
                     )
                 )
-
-            if !isFromCurrentUser {
-                Spacer()
-            }
         }
     }
 }
 
 #Preview {
-    ChatBubble(isFromCurrentUser: false)
+    ChatBubble(message: MOCK_MESSAGES[1])
 }
