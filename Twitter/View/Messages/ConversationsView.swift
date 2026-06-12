@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ConversationsView: View {
     @State private var showSearchViewSheet = false
-    @Binding var path: NavigationPath
+    @Environment(Router.self) private var router
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
                 VStack {
                     ForEach(MOCK_CONVERSATIONS) { conversation in
-                        NavigationLink(value: conversation) {
+                        Button {
+                            router.navigate(to: .conversation(conversation))
+                        } label: {
                             ConversationCellView(conversation: conversation)
                         }
                         .buttonStyle(.plain)
@@ -33,17 +35,14 @@ struct ConversationsView: View {
             }
         }
         .sheet(isPresented: $showSearchViewSheet) {
-            NewMessageView { user in
-                let conversation = Conversation(user: user, messages: [])
-
-                path.append(conversation)
-            }
+            NewMessageView()
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        ConversationsView(path: .constant(.init()))
+        ConversationsView()
+            .environment(Router())
     }
 }

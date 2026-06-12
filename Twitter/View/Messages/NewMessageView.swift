@@ -10,7 +10,7 @@ import SwiftUI
 struct NewMessageView: View {
     @State private var searchText = ""
     @Environment(\.dismiss) var dismiss
-    var onUserSelected: (MockUser) -> Void
+    @Environment(Router.self) private var router
 
     var body: some View {
         NavigationStack {
@@ -20,8 +20,13 @@ struct NewMessageView: View {
                         Button {
                             dismiss()
 
-                            DispatchQueue.main.async {
-                                onUserSelected(user)
+                            Task { @MainActor in
+                                let conversation = Conversation(
+                                    user: user,
+                                    messages: []
+                                )
+
+                                router.navigate(to: .conversation(conversation))
                             }
                         } label: {
                             UserCellView(user: user)
@@ -41,5 +46,6 @@ struct NewMessageView: View {
 }
 
 #Preview {
-    NewMessageView { print($0.username) }
+    NewMessageView()
+        .environment(Router())
 }

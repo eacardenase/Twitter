@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var path = NavigationPath()
+    @Environment(Router.self) private var router
 
     var body: some View {
-        NavigationStack(path: $path) {
+        @Bindable var router = router
+
+        NavigationStack(path: $router.path) {
             TabView {
                 Tab("Home", systemImage: "house") {
                     FeedView()
@@ -22,16 +24,19 @@ struct ContentView: View {
                 }
 
                 Tab("Messages", systemImage: "envelope") {
-                    ConversationsView(path: $path)
+                    ConversationsView()
                 }
             }
             .navigationTitle("Home")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Conversation.self) { conversation in
-                ChatView(conversation: conversation)
-            }
-            .navigationDestination(for: MockUser.self) { user in
-                Text(user.username)
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .conversation(let conversation):
+                    ChatView(conversation: conversation)
+                case .profile(let user):
+                    Text(user.username)
+                }
+
             }
         }
     }
@@ -39,4 +44,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environment(Router())
 }

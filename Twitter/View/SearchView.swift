@@ -9,12 +9,15 @@ import SwiftUI
 
 struct SearchView: View {
     @State private var searchText = ""
+    @Environment(Router.self) var router
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
                 ForEach(MOCK_USERS) { user in
-                    NavigationLink(value: user) {
+                    Button {
+                        router.navigate(to: .profile(user))
+                    } label: {
                         UserCellView(user: user)
                     }
                     .buttonStyle(.plain)
@@ -32,5 +35,6 @@ struct SearchView: View {
 #Preview {
     NavigationStack {
         SearchView()
+            .environment(Router())
     }
 }
