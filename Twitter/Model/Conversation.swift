@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Conversation: Identifiable, Hashable {
-    let id = UUID().uuidString
+struct Conversation: Identifiable, Hashable, Codable {
+    var id = UUID().uuidString
     let user: MockUser
     let messages: [MockMessage]
 }
