@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum AppTab: Hashable {
+    case home
+    case search
+    case messages
+}
+
 enum Route: Hashable {
     case conversation(Conversation)
     case profile(MockUser)
@@ -14,18 +20,20 @@ enum Route: Hashable {
 
 @Observable
 final class Router {
-    var path: [Route] = []
+    var selectedTab: AppTab = .home
 
-    func navigate(to route: Route) {
-        path.append(route)
-    }
+    var homePath: [Route] = []
+    var searchPath: [Route] = []
+    var messagesPath: [Route] = []
 
-    func pop() {
-        guard !path.isEmpty else { return }
-        path.removeLast()
-    }
-
-    func popToRoot() {
-        path.removeAll()
+    func push(_ route: Route) {
+        switch selectedTab {
+        case .home:
+            homePath.append(route)
+        case .search:
+            searchPath.append(route)
+        case .messages:
+            messagesPath.append(route)
+        }
     }
 }

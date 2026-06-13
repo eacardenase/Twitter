@@ -26,7 +26,7 @@ struct NewMessageView: View {
                                     messages: []
                                 )
 
-                                router.navigate(to: .conversation(conversation))
+                                router.push(.conversation(conversation))
                             }
                         } label: {
                             UserCellView(user: user)

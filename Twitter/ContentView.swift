@@ -13,31 +13,41 @@ struct ContentView: View {
     var body: some View {
         @Bindable var router = router
 
-        NavigationStack(path: $router.path) {
-            TabView {
-                Tab("Home", systemImage: "house") {
+        TabView(selection: $router.selectedTab) {
+            Tab("Home", systemImage: "house", value: .home) {
+                NavigationStack(path: $router.homePath) {
                     FeedView()
                 }
+            }
 
-                Tab("Search", systemImage: "magnifyingglass") {
+            Tab("Search", systemImage: "magnifyingglass", value: .search) {
+                NavigationStack(path: $router.searchPath) {
                     SearchView()
+                        .navigationDestination(for: Route.self) { route in
+                            routeView(route)
+                        }
                 }
+            }
 
-                Tab("Messages", systemImage: "envelope") {
+            Tab("Messages", systemImage: "envelope", value: .messages) {
+                NavigationStack(path: $router.messagesPath) {
                     ConversationsView()
+                        .navigationDestination(for: Route.self) { route in
+                            routeView(route)
+                        }
                 }
             }
-            .navigationTitle("Home")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: Route.self) { route in
-                switch route {
-                case .conversation(let conversation):
-                    ChatView(conversation: conversation)
-                case .profile(let user):
-                    Text(user.username)
-                }
+        }
+    }
 
-            }
+    @ViewBuilder
+    private func routeView(_ route: Route) -> some View {
+        switch route {
+        case .conversation(let conversation):
+            ChatView(conversation: conversation)
+                .toolbar(.hidden, for: .tabBar)
+        case .profile(let user):
+            Text(user.username)
         }
     }
 }

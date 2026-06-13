@@ -30,7 +30,5 @@ struct FeedView: View {
 }
 
 #Preview {
-    NavigationStack {
-        FeedView()
-    }
+    FeedView()
 }

@@ -17,7 +17,7 @@ struct ConversationsView: View {
                 VStack {
                     ForEach(MOCK_CONVERSATIONS) { conversation in
                         Button {
-                            router.navigate(to: .conversation(conversation))
+                            router.push(.conversation(conversation))
                         } label: {
                             ConversationCellView(conversation: conversation)
                         }

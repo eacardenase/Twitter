@@ -16,7 +16,7 @@ struct SearchView: View {
             VStack(spacing: 16) {
                 ForEach(MOCK_USERS) { user in
                     Button {
-                        router.navigate(to: .profile(user))
+                        router.push(.profile(user))
                     } label: {
                         UserCellView(user: user)
                     }
