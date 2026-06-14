@@ -25,11 +25,11 @@ struct ChatBubbleView: View {
 
             Text(message.text)
                 .padding()
-                .foregroundStyle(message.isFromCurrentUser ? .white : .black)
+                .foregroundStyle(message.isFromCurrentUser ? .white : .primary)
                 .background(
                     message.isFromCurrentUser
                         ? Color.blue.gradient
-                        : Color(.systemGray5).gradient
+                        : Color(.systemGray4).gradient
                 )
                 .clipShape(
                     UnevenRoundedRectangle(
