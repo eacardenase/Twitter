@@ -28,6 +28,7 @@ struct UserCellView: View {
 
             Spacer()
         }
+        .contentShape(.rect)
     }
 }
 
