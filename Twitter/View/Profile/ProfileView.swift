@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State private var selectedOption: TweetFilterOption = .all
+
     let user: MockUser
 
     var body: some View {
@@ -15,7 +17,12 @@ struct ProfileView: View {
             VStack {
                 ProfileHeaderView(user: user)
 
-                Spacer()
+                FilterButtonView(selectedOption: $selectedOption)
+
+                ForEach(0..<10) { _ in
+                    TweetCellView()
+                }
+                .padding(.horizontal)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
