@@ -27,5 +27,6 @@ struct ProfileView: View {
 #Preview {
     NavigationStack {
         ProfileView(user: MOCK_USERS[0])
+            .environment(Router())
     }
 }
