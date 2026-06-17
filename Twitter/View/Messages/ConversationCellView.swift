@@ -32,6 +32,7 @@ struct ConversationCellView: View {
 
                 Spacer()
             }
+            .contentShape(.rect)
 
             Divider()
         }

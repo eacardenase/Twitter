@@ -47,7 +47,7 @@ struct ContentView: View {
             ChatView(conversation: conversation)
                 .toolbar(.hidden, for: .tabBar)
         case .profile(let user):
-            Text(user.username)
+            ProfileView(user: user)
         }
     }
 }
