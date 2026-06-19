@@ -15,7 +15,7 @@ enum TweetFilterOption: Int, CaseIterable {
     var title: String {
         switch self {
         case .all: "Tweets"
-        case .replies: "Tweets & Replies"
+        case .replies: "Replies"
         case .likes: "Likes"
         }
     }
@@ -23,45 +23,34 @@ enum TweetFilterOption: Int, CaseIterable {
 
 struct FilterButtonView: View {
     @Binding var selectedOption: TweetFilterOption
-
-    private let underlineWidth =
-        UIScreen.main.bounds.width / CGFloat(TweetFilterOption.allCases.count)
-
-    private var optionPadding: CGFloat {
-        let rawValue = CGFloat(selectedOption.rawValue)
-        let count = CGFloat(TweetFilterOption.allCases.count)
-
-        return ((UIScreen.main.bounds.width / count) * rawValue) + 16
-    }
+    @State private var contentWidth: CGFloat = 0
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
+            HStack(spacing: 16) {
                 ForEach(TweetFilterOption.allCases, id: \.self) { option in
                     Button {
-                        selectedOption = option
+                        withAnimation {
+                            selectedOption = option
+                        }
                     } label: {
-                        Text(option.title)
-                            .foregroundStyle(.blue)
-                            .frame(width: underlineWidth)
+                        VStack {
+                            Text(option.title)
+                                .foregroundStyle(.blue)
+
+                            Rectangle()
+                                .fill(option == selectedOption ? .blue : .clear)
+                                .frame(height: 3)
+                        }
+                        .frame(maxWidth: .infinity)
                     }
                 }
             }
-
-            Rectangle()
-                .fill(.blue)
-                .frame(
-                    width: underlineWidth - 32,
-                    height: 3,
-                    alignment: .center
-                )
-                .padding(.leading, optionPadding)
-                .animation(.spring)
         }
         .padding()
     }
 }
 
 #Preview {
-    FilterButtonView(selectedOption: .constant(.likes))
+    FilterButtonView(selectedOption: .constant(.all))
 }

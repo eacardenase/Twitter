@@ -45,7 +45,6 @@ struct ContentView: View {
         switch route {
         case .conversation(let conversation):
             ChatView(conversation: conversation)
-                .toolbar(.hidden, for: .tabBar)
         case .profile(let user):
             ProfileView(user: user)
         }
