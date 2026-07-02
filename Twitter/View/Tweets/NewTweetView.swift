@@ -51,6 +51,7 @@ struct NewTweetView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .buttonBorderShape(.capsule)
+                    .disabled(tweetBody.isEmpty)
                 }
             }
         }
