@@ -23,7 +23,7 @@ struct FeedView: View {
             .scrollIndicators(.never)
 
             ActionButton(systemImageName: "plus") {
-                isPresentingNewTweetView = true
+                isPresentingNewTweetView.toggle()
             }
         }
         .navigationTitle("Home")
