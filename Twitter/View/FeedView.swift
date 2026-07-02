@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FeedView: View {
+    @State private var isPresentingNewTweetView = false
+
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             ScrollView {
@@ -21,11 +23,14 @@ struct FeedView: View {
             .scrollIndicators(.never)
 
             ActionButton(systemImageName: "plus") {
-                // TODO: Implement action
+                isPresentingNewTweetView = true
             }
         }
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
+        .fullScreenCover(isPresented: $isPresentingNewTweetView) {
+            NewTweetView()
+        }
     }
 }
 
