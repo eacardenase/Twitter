@@ -12,74 +12,76 @@ struct LoginView: View {
     @State private var password = ""
 
     var body: some View {
-        ZStack {
-            Color.twitterBlue
-                .ignoresSafeArea()
+        NavigationStack {
+            ZStack {
+                Color.twitterBlue
+                    .ignoresSafeArea()
 
-            VStack(spacing: 32) {
-                Image(.twitterLogo)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 100)
+                VStack(spacing: 32) {
+                    Image(.twitterLogo)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 200, height: 100)
 
-                VStack(spacing: 24) {
-                    CustomTextField(
-                        text: $email,
-                        placeholder: "Email",
-                        image: Image(systemName: "envelope")
-                    )
+                    VStack(spacing: 24) {
+                        CustomTextField(
+                            text: $email,
+                            placeholder: "Email",
+                            image: Image(systemName: "envelope")
+                        )
 
-                    CustomTextField(
-                        text: $password,
-                        placeholder: "Password",
-                        image: Image(systemName: "lock"),
-                        isSecure: true
-                    )
+                        CustomTextField(
+                            text: $password,
+                            placeholder: "Password",
+                            image: Image(systemName: "lock"),
+                            isSecure: true
+                        )
 
-                    HStack {
-                        Spacer()
+                        HStack {
+                            Spacer()
+
+                            Button {
+                                // TODO: Implement Action
+                            } label: {
+                                Text("Forgot Password?")
+                                    .foregroundStyle(.white)
+                                    .font(.footnote)
+                                    .fontWeight(.semibold)
+                            }
+                        }
 
                         Button {
                             // TODO: Implement Action
                         } label: {
-                            Text("Forgot Password?")
-                                .foregroundStyle(.white)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
+                            Text("Sign In")
+                                .tint(.twitterBlue)
+                                .frame(maxWidth: .infinity)
+                                .font(.headline)
+                                .padding(.vertical)
+                                .background(.white)
+                                .clipShape(.capsule)
+
                         }
                     }
+                    .padding(.horizontal)
 
-                    Button {
-                        // TODO: Implement Action
+                    Spacer()
+
+                    NavigationLink {
+                        RegistrationView()
                     } label: {
-                        Text("Sign In")
-                            .tint(.twitterBlue)
-                            .frame(maxWidth: .infinity)
-                            .font(.headline)
-                            .padding(.vertical)
-                            .background(.white)
-                            .clipShape(.capsule)
+                        HStack(spacing: 4) {
+                            Text("Don't have an account?")
 
+                            Text("Sign Up")
+                                .fontWeight(.semibold)
+                        }
+                        .foregroundStyle(.white)
+                        .font(.callout)
                     }
                 }
-                .padding(.horizontal)
-
-                Spacer()
-
-                Button {
-                    // TODO: Implement Action
-                } label: {
-                    HStack(spacing: 4) {
-                        Text("Don't have an account?")
-
-                        Text("Sign Up")
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundStyle(.white)
-                    .font(.callout)
-                }
+                .padding()
             }
-            .padding()
         }
     }
 }
