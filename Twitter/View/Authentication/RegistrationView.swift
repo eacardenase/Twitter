@@ -8,8 +8,72 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @State private var fullname = ""
+    @State private var username = ""
+    @State private var email = ""
+    @State private var password = ""
+    @Environment(\.dismiss) var dismiss
+
     var body: some View {
-        Text("RegistrationView")
+        ZStack {
+            Color.twitterBlue
+                .ignoresSafeArea()
+
+            VStack(spacing: 32) {
+                Image(.twitterLogo)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 200, height: 100)
+
+                VStack(spacing: 24) {
+                    CustomTextField(
+                        text: $fullname,
+                        placeholder: "Full Name",
+                        image: Image(systemName: "person")
+                    )
+
+                    CustomTextField(
+                        text: $fullname,
+                        placeholder: "Username",
+                        image: Image(systemName: "at")
+                    )
+
+                    CustomTextField(
+                        text: $email,
+                        placeholder: "Email",
+                        image: Image(systemName: "envelope")
+                    )
+
+                    CustomTextField(
+                        text: $password,
+                        placeholder: "Password",
+                        image: Image(systemName: "lock"),
+                        isSecure: true
+                    )
+
+                    AuthenticationButton(title: "Sign Up") {
+                        // TODO: Implement Action
+                    }
+                }
+                .padding(.horizontal)
+
+                Spacer()
+
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 4) {
+                        Text("Already have an account?")
+
+                        Text("Sign In")
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundStyle(.white)
+                    .font(.callout)
+                }
+            }
+            .padding()
+        }
     }
 }
 

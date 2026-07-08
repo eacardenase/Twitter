@@ -50,17 +50,8 @@ struct LoginView: View {
                             }
                         }
 
-                        Button {
+                        AuthenticationButton(title: "Sign In") {
                             // TODO: Implement Action
-                        } label: {
-                            Text("Sign In")
-                                .tint(.twitterBlue)
-                                .frame(maxWidth: .infinity)
-                                .font(.headline)
-                                .padding(.vertical)
-                                .background(.white)
-                                .clipShape(.capsule)
-
                         }
                     }
                     .padding(.horizontal)
@@ -83,6 +74,7 @@ struct LoginView: View {
                 .padding()
             }
         }
+        .tint(.white)
     }
 }
 
