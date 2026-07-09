@@ -5,6 +5,7 @@
 //  Created by Edwin Cardenas on 7/4/26.
 //
 
+import PhotosUI
 import SwiftUI
 
 struct RegistrationView: View {
@@ -12,8 +13,8 @@ struct RegistrationView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
-    @State private var isImagePickerPresented = false
-    @State private var selectedUIImage: UIImage?
+    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var image: Image?
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -22,25 +23,25 @@ struct RegistrationView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 32) {
-                Button {
-                    isImagePickerPresented.toggle()
-                } label: {
-                    Group {
-                        if let selectedUIImage {
-                            Image(uiImage: selectedUIImage)
+                PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+                    ZStack {
+                        Circle()
+                            .fill(.white.opacity(0.15))
+
+                        if let image {
+                            image
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 200, height: 200)
                                 .clipShape(.circle)
                         } else {
-                            Image(systemName: "photo.badge.plus")
+                            Image(systemName: "photo.on.rectangle")
                                 .resizable()
-                                .renderingMode(.template)
-                                .foregroundStyle(.white)
                                 .scaledToFit()
-                                .frame(width: 200)
+                                .foregroundStyle(.white)
+                                .frame(width: 120, height: 120)
                         }
                     }
+                    .frame(width: 200, height: 200)
                 }
 
                 VStack(spacing: 24) {
@@ -92,8 +93,21 @@ struct RegistrationView: View {
             }
             .padding()
         }
-        .sheet(isPresented: $isImagePickerPresented) {
-            PhotoPicker(image: $selectedUIImage)
+        .onChange(of: selectedPhotoItem) {
+            guard let selectedPhotoItem else { return }
+
+            selectedPhotoItem.loadTransferable(type: Data.self) { result in
+                switch result {
+                case .success(let data):
+                    if let data, let uiImage = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self.image = Image(uiImage: uiImage)
+                        }
+                    }
+                case .failure(let error):
+                    print("DEBUG:", error.localizedDescription)
+                }
+            }
         }
     }
 }
