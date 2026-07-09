@@ -12,6 +12,8 @@ struct RegistrationView: View {
     @State private var username = ""
     @State private var email = ""
     @State private var password = ""
+    @State private var isImagePickerPresented = false
+    @State private var selectedUIImage: UIImage?
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -20,10 +22,26 @@ struct RegistrationView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 32) {
-                Image(.twitterLogo)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 100)
+                Button {
+                    isImagePickerPresented.toggle()
+                } label: {
+                    Group {
+                        if let selectedUIImage {
+                            Image(uiImage: selectedUIImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 200, height: 200)
+                                .clipShape(.circle)
+                        } else {
+                            Image(systemName: "photo.badge.plus")
+                                .resizable()
+                                .renderingMode(.template)
+                                .foregroundStyle(.white)
+                                .scaledToFit()
+                                .frame(width: 200)
+                        }
+                    }
+                }
 
                 VStack(spacing: 24) {
                     CustomTextField(
@@ -73,6 +91,9 @@ struct RegistrationView: View {
                 }
             }
             .padding()
+        }
+        .sheet(isPresented: $isImagePickerPresented) {
+            ImagePicker(image: $selectedUIImage)
         }
     }
 }
