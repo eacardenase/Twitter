@@ -93,7 +93,7 @@ struct RegistrationView: View {
             .padding()
         }
         .sheet(isPresented: $isImagePickerPresented) {
-            ImagePicker(image: $selectedUIImage)
+            PhotoPicker(image: $selectedUIImage)
         }
     }
 }
