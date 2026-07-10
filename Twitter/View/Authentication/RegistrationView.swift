@@ -24,6 +24,7 @@ struct RegistrationView: View {
     @State private var image: Image?
     @Environment(\.dismiss) var dismiss
     @FocusState private var focusedField: Field?
+    @State var viewModel = AuthViewModel()
 
     var body: some View {
         ZStack {
@@ -62,6 +63,7 @@ struct RegistrationView: View {
                         image: Image(systemName: "person")
                     )
                     .keyboardType(.asciiCapable)
+                    .textInputAutocapitalization(.words)
                     .focused($focusedField, equals: .fullname)
 
                     CustomTextField(
@@ -70,6 +72,7 @@ struct RegistrationView: View {
                         image: Image(systemName: "at")
                     )
                     .keyboardType(.asciiCapable)
+                    .textInputAutocapitalization(.never)
                     .focused($focusedField, equals: .username)
 
                     CustomTextField(
@@ -78,6 +81,7 @@ struct RegistrationView: View {
                         image: Image(systemName: "envelope")
                     )
                     .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
                     .focused($focusedField, equals: .email)
 
                     CustomTextField(
@@ -87,10 +91,19 @@ struct RegistrationView: View {
                         isSecure: true
                     )
                     .keyboardType(.asciiCapable)
+                    .textInputAutocapitalization(.never)
                     .focused($focusedField, equals: .password)
 
                     AuthenticationButton(title: "Sign Up") {
-                        // TODO: Implement Action
+                        guard let image else { return }
+
+                        viewModel.registerUser(
+                            email: email,
+                            password: password,
+                            username: username,
+                            fullname: fullname,
+                            profileImage: image
+                        )
                     }
                 }
                 .padding(.horizontal)

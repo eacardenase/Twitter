@@ -42,7 +42,6 @@ struct CustomTextField: View {
             }
             .tint(.white)
             .foregroundStyle(.white)
-            .textInputAutocapitalization(.never)
         }
         .padding()
         .background(.white.opacity(0.15))
