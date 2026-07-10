@@ -9,6 +9,13 @@ import PhotosUI
 import SwiftUI
 
 struct RegistrationView: View {
+    enum Field: Hashable {
+        case fullname
+        case username
+        case email
+        case password
+    }
+
     @State private var fullname = ""
     @State private var username = ""
     @State private var email = ""
@@ -16,11 +23,15 @@ struct RegistrationView: View {
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var image: Image?
     @Environment(\.dismiss) var dismiss
+    @FocusState private var focusedField: Field?
 
     var body: some View {
         ZStack {
             Color.twitterBlue
                 .ignoresSafeArea()
+                .onTapGesture {
+                    focusedField = nil
+                }
 
             VStack(spacing: 32) {
                 PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
@@ -50,18 +61,24 @@ struct RegistrationView: View {
                         placeholder: "Full Name",
                         image: Image(systemName: "person")
                     )
+                    .keyboardType(.asciiCapable)
+                    .focused($focusedField, equals: .fullname)
 
                     CustomTextField(
-                        text: $fullname,
+                        text: $username,
                         placeholder: "Username",
                         image: Image(systemName: "at")
                     )
+                    .keyboardType(.asciiCapable)
+                    .focused($focusedField, equals: .username)
 
                     CustomTextField(
                         text: $email,
                         placeholder: "Email",
                         image: Image(systemName: "envelope")
                     )
+                    .keyboardType(.emailAddress)
+                    .focused($focusedField, equals: .email)
 
                     CustomTextField(
                         text: $password,
@@ -69,6 +86,8 @@ struct RegistrationView: View {
                         image: Image(systemName: "lock"),
                         isSecure: true
                     )
+                    .keyboardType(.asciiCapable)
+                    .focused($focusedField, equals: .password)
 
                     AuthenticationButton(title: "Sign Up") {
                         // TODO: Implement Action

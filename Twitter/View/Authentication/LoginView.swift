@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct LoginView: View {
+    enum Field: Hashable {
+        case email
+        case password
+    }
+
     @State private var email = ""
     @State private var password = ""
+    @FocusState private var focusedField: Field?
 
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.twitterBlue
                     .ignoresSafeArea()
+                    .onTapGesture {
+                        focusedField = nil
+                    }
 
                 VStack(spacing: 32) {
                     Image(.twitterLogo)
@@ -29,6 +38,8 @@ struct LoginView: View {
                             placeholder: "Email",
                             image: Image(systemName: "envelope")
                         )
+                        .keyboardType(.emailAddress)
+                        .focused($focusedField, equals: .email)
 
                         CustomTextField(
                             text: $password,
@@ -36,6 +47,8 @@ struct LoginView: View {
                             image: Image(systemName: "lock"),
                             isSecure: true
                         )
+                        .keyboardType(.asciiCapable)
+                        .focused($focusedField, equals: .email)
 
                         HStack {
                             Spacer()
