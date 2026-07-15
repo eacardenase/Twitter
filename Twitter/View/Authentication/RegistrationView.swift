@@ -21,7 +21,7 @@ struct RegistrationView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var selectedPhotoItem: PhotosPickerItem?
-    @State private var image: Image?
+    @State private var uiImage: UIImage?
     @Environment(\.dismiss) var dismiss
     @FocusState private var focusedField: Field?
     @State var viewModel = AuthViewModel()
@@ -40,8 +40,8 @@ struct RegistrationView: View {
                         Circle()
                             .fill(.white.opacity(0.15))
 
-                        if let image {
-                            image
+                        if let uiImage {
+                            Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
                                 .clipShape(.circle)
@@ -95,15 +95,27 @@ struct RegistrationView: View {
                     .focused($focusedField, equals: .password)
 
                     AuthenticationButton(title: "Sign Up") {
-                        guard let image else { return }
+                        guard let uiImage else { return }
 
-                        viewModel.registerUser(
+                        let credentials = AuthCredentials(
+                            fullname: fullname,
+                            username: username,
                             email: email,
                             password: password,
-                            username: username,
-                            fullname: fullname,
-                            profileImage: image
+                            profileImage: uiImage
                         )
+
+                        Task {
+                            do {
+                                try await viewModel.createUser(
+                                    with: credentials
+                                )
+                            } catch {
+                                print(
+                                    "DEBUG: Failed to register user with error: \(error.localizedDescription)"
+                                )
+                            }
+                        }
                     }
                 }
                 .padding(.horizontal)
@@ -133,7 +145,7 @@ struct RegistrationView: View {
                 case .success(let data):
                     if let data, let uiImage = UIImage(data: data) {
                         DispatchQueue.main.async {
-                            self.image = Image(uiImage: uiImage)
+                            self.uiImage = uiImage
                         }
                     }
                 case .failure(let error):

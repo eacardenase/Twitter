@@ -7,6 +7,14 @@
 
 import UIKit
 
+struct User: Codable {
+    let uid: String
+    var fullname: String
+    var username: String
+    var email: String
+    var profileImageUrl: URL
+}
+
 struct MockUser: Identifiable, Hashable, Codable {
     var id = UUID().uuidString
     let name: String
