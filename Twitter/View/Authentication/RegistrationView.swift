@@ -25,6 +25,7 @@ struct RegistrationView: View {
     @Environment(\.dismiss) var dismiss
     @FocusState private var focusedField: Field?
     @State var viewModel = AuthViewModel()
+    @State private var showAlert = false
 
     var body: some View {
         ZStack {
@@ -95,7 +96,11 @@ struct RegistrationView: View {
                     .focused($focusedField, equals: .password)
 
                     AuthenticationButton(title: "Sign Up") {
-                        guard let uiImage else { return }
+                        guard let uiImage else {
+                            showAlert.toggle()
+
+                            return
+                        }
 
                         let credentials = AuthCredentials(
                             fullname: fullname,
@@ -136,6 +141,10 @@ struct RegistrationView: View {
                 }
             }
             .padding()
+        }
+        .alert("Profile Photo", isPresented: $showAlert) {
+        } message: {
+            Text("Please provide an image to be used as profile photo.")
         }
         .onChange(of: selectedPhotoItem) {
             guard let selectedPhotoItem else { return }
