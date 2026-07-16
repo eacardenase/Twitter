@@ -14,8 +14,8 @@ struct LaunchScreen: View {
 
             Image(.twitterLogo)
                 .resizable()
-                .scaledToFill()
-                .frame(width: 200, height: 100)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 200, height: 200)
         }
     }
 }

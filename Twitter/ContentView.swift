@@ -17,6 +17,7 @@ struct ContentView: View {
         Group {
             if viewModel.isLoading {
                 LaunchScreen()
+                    .ignoresSafeArea()
             } else if viewModel.user != nil {
                 TabView(selection: $router.selectedTab) {
                     Tab("Home", systemImage: "house", value: .home) {

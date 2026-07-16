@@ -14,12 +14,6 @@ class AuthViewModel {
     var user: User?
     var error: Error?
 
-    init() {
-        Task {
-            await verifyLogin()
-        }
-    }
-
     func verifyLogin() async {
         isLoading = true
 
