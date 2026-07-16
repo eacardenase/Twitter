@@ -21,14 +21,20 @@ class AuthViewModel {
     }
 
     func verifyLogin() async {
+        isLoading = true
+
         do {
             user = try await AuthService.verifyLogin()
         } catch {
             self.error = error
         }
+
+        isLoading = false
     }
 
     func logUserIn(withEmail email: String, password: String) async {
+        isLoading = true
+
         do {
             user = try await AuthService.logUserIn(
                 withEmail: email,
@@ -37,6 +43,8 @@ class AuthViewModel {
         } catch {
             self.error = error
         }
+
+        isLoading = false
     }
 
     func logUserOut() {
@@ -48,10 +56,14 @@ class AuthViewModel {
     }
 
     func createUser(with credentials: AuthCredentials) async {
+        isLoading = true
+
         do {
             user = try await AuthService.createrUser(with: credentials)
         } catch {
             self.error = error
         }
+
+        isLoading = false
     }
 }

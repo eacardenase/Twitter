@@ -15,7 +15,9 @@ struct ContentView: View {
         @Bindable var router = router
 
         Group {
-            if viewModel.user != nil {
+            if viewModel.isLoading {
+                LaunchScreen()
+            } else if viewModel.user != nil {
                 TabView(selection: $router.selectedTab) {
                     Tab("Home", systemImage: "house", value: .home) {
                         NavigationStack(path: $router.homePath) {
