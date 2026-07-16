@@ -15,6 +15,7 @@ struct LoginView: View {
 
     @State private var email = ""
     @State private var password = ""
+    @Environment(AuthViewModel.self) var viewModel
     @FocusState private var focusedField: Field?
 
     var body: some View {
@@ -39,6 +40,7 @@ struct LoginView: View {
                             image: Image(systemName: "envelope")
                         )
                         .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
                         .focused($focusedField, equals: .email)
 
                         CustomTextField(
@@ -48,6 +50,7 @@ struct LoginView: View {
                             isSecure: true
                         )
                         .keyboardType(.asciiCapable)
+                        .textInputAutocapitalization(.never)
                         .focused($focusedField, equals: .email)
 
                         HStack {
@@ -64,7 +67,12 @@ struct LoginView: View {
                         }
 
                         AuthenticationButton(title: "Sign In") {
-                            // TODO: Implement Action
+                            Task {
+                                await viewModel.logUserIn(
+                                    withEmail: email,
+                                    password: password
+                                )
+                            }
                         }
                     }
                     .padding(.horizontal)
@@ -93,4 +101,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environment(AuthViewModel())
 }

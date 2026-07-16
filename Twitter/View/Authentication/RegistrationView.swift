@@ -24,7 +24,7 @@ struct RegistrationView: View {
     @State private var uiImage: UIImage?
     @Environment(\.dismiss) var dismiss
     @FocusState private var focusedField: Field?
-    @State var viewModel = AuthViewModel()
+    @Environment(AuthViewModel.self) var viewModel
     @State private var showAlert = false
 
     var body: some View {
@@ -111,15 +111,7 @@ struct RegistrationView: View {
                         )
 
                         Task {
-                            do {
-                                try await viewModel.createUser(
-                                    with: credentials
-                                )
-                            } catch {
-                                print(
-                                    "DEBUG: Failed to register user with error: \(error.localizedDescription)"
-                                )
-                            }
+                            await viewModel.createUser(with: credentials)
                         }
                     }
                 }
@@ -167,4 +159,5 @@ struct RegistrationView: View {
 
 #Preview {
     RegistrationView()
+        .environment(AuthViewModel())
 }

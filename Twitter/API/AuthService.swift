@@ -22,11 +22,36 @@ struct AuthCredentials {
 }
 
 struct AuthService {
-
     private init() {}
 
-    static var currentUser: FirebaseAuth.User? {
-        return Auth.auth().currentUser
+    static var currentUserId: String? {
+        return Auth.auth().currentUser?.uid
+    }
+
+    static func verifyLogin() async throws -> User {
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            throw NetworkingError.serverError(
+                "Failed to get user, current user is nil."
+            )
+        }
+
+        return try await UserService.fetchUser(withId: currentUserId)
+    }
+
+    static func logUserIn(
+        withEmail email: String,
+        password: String
+    ) async throws -> User {
+        let authResult = try await Auth.auth().signIn(
+            withEmail: email,
+            password: password
+        )
+
+        return try await UserService.fetchUser(withId: authResult.user.uid)
+    }
+
+    static func logUserOut() throws {
+        try Auth.auth().signOut()
     }
 
     static func createrUser(

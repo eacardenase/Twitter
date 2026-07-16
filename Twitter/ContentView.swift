@@ -9,36 +9,52 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(Router.self) private var router
+    @Environment(AuthViewModel.self) private var viewModel
 
     var body: some View {
         @Bindable var router = router
 
-        TabView(selection: $router.selectedTab) {
-            Tab("Home", systemImage: "house", value: .home) {
-                NavigationStack(path: $router.homePath) {
-                    FeedView()
-                }
-            }
-
-            Tab("Search", systemImage: "magnifyingglass", value: .search) {
-                NavigationStack(path: $router.searchPath) {
-                    SearchView()
-                        .navigationDestination(for: Route.self) { route in
-                            routeView(route)
+        Group {
+            if viewModel.user != nil {
+                TabView(selection: $router.selectedTab) {
+                    Tab("Home", systemImage: "house", value: .home) {
+                        NavigationStack(path: $router.homePath) {
+                            FeedView()
                         }
-                }
-            }
+                    }
 
-            Tab("Messages", systemImage: "envelope", value: .messages) {
-                NavigationStack(path: $router.messagesPath) {
-                    ConversationsView()
-                        .navigationDestination(for: Route.self) { route in
-                            routeView(route)
+                    Tab(
+                        "Search",
+                        systemImage: "magnifyingglass",
+                        value: .search
+                    ) {
+                        NavigationStack(path: $router.searchPath) {
+                            SearchView()
+                                .navigationDestination(for: Route.self) {
+                                    route in
+                                    routeView(route)
+                                }
                         }
+                    }
+
+                    Tab("Messages", systemImage: "envelope", value: .messages) {
+                        NavigationStack(path: $router.messagesPath) {
+                            ConversationsView()
+                                .navigationDestination(for: Route.self) {
+                                    route in
+                                    routeView(route)
+                                }
+                        }
+                    }
                 }
+                .tint(.twitterBlue)
+            } else {
+                LoginView()
             }
         }
-        .tint(.twitterBlue)
+        .task {
+            await viewModel.verifyLogin()
+        }
     }
 
     @ViewBuilder
@@ -55,4 +71,5 @@ struct ContentView: View {
 #Preview {
     ContentView()
         .environment(Router())
+        .environment(AuthViewModel())
 }

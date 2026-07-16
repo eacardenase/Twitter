@@ -10,11 +10,48 @@ import SwiftUI
 
 @Observable
 class AuthViewModel {
-    func login() {
+    var isLoading = false
+    var user: User?
+    var error: Error?
 
+    init() {
+        Task {
+            await verifyLogin()
+        }
     }
 
-    func createUser(with credentials: AuthCredentials) async throws {
-        try await AuthService.createrUser(with: credentials)
+    func verifyLogin() async {
+        do {
+            user = try await AuthService.verifyLogin()
+        } catch {
+            self.error = error
+        }
+    }
+
+    func logUserIn(withEmail email: String, password: String) async {
+        do {
+            user = try await AuthService.logUserIn(
+                withEmail: email,
+                password: password
+            )
+        } catch {
+            self.error = error
+        }
+    }
+
+    func logUserOut() {
+        do {
+            try AuthService.logUserOut()
+        } catch {
+            self.error = error
+        }
+    }
+
+    func createUser(with credentials: AuthCredentials) async {
+        do {
+            user = try await AuthService.createrUser(with: credentials)
+        } catch {
+            self.error = error
+        }
     }
 }

@@ -24,11 +24,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct TwitterApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @State private var router = Router()
+    @State private var authViewModel = AuthViewModel()
 
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            ContentView()
                 .environment(router)
+                .environment(authViewModel)
         }
     }
 }
