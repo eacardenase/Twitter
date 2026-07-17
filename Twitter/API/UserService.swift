@@ -20,11 +20,19 @@ struct UserService {
         return user
     }
 
-    static func fetchUser(withId userId: String) async throws -> User {
-        try await Firestore
-            .firestore()
-            .collection("users")
-            .document(userId)
-            .getDocument(as: User.self)
+    static func fetchUser(
+        withId userId: String
+    ) async throws(NetworkingError) -> User {
+        do {
+            return
+                try await Firestore
+                .firestore()
+                .collection("users")
+                .document(userId)
+                .getDocument(as: User.self)
+        } catch {
+            throw NetworkingError.serverError(error.localizedDescription)
+        }
+
     }
 }

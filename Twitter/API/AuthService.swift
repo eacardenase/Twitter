@@ -28,7 +28,7 @@ struct AuthService {
         return Auth.auth().currentUser?.uid
     }
 
-    static func verifyLogin() async throws -> User {
+    static func verifyLogin() async throws(NetworkingError) -> User {
         guard let currentUserId = Auth.auth().currentUser?.uid else {
             throw NetworkingError.serverError(
                 "Failed to get user, current user is nil."

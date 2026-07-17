@@ -17,10 +17,17 @@ class AuthViewModel {
     func verifyLogin() async {
         isLoading = true
 
-        do {
+        do throws(NetworkingError) {
             user = try await AuthService.verifyLogin()
         } catch {
             self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Faied to \(#function) with error: \(message)")
+            }
         }
 
         isLoading = false
