@@ -51,6 +51,8 @@ class AuthViewModel {
     func logUserOut() {
         do {
             try AuthService.logUserOut()
+
+            user = nil
         } catch {
             self.error = error
         }

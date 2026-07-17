@@ -104,7 +104,7 @@ struct RegistrationView: View {
 
                         let credentials = AuthCredentials(
                             fullname: fullname,
-                            username: username,
+                            username: username.lowercased(),
                             email: email,
                             password: password,
                             profileImage: uiImage
