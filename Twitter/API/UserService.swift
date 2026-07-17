@@ -14,7 +14,7 @@ struct UserService {
         try Firestore
             .firestore()
             .collection("users")
-            .document(user.uid)
+            .document(user.id)
             .setData(from: user)
 
         return user
@@ -33,6 +33,5 @@ struct UserService {
         } catch {
             throw NetworkingError.serverError(error.localizedDescription)
         }
-
     }
 }

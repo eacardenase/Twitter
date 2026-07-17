@@ -7,12 +7,12 @@
 
 import UIKit
 
-struct User: Codable {
-    let uid: String
-    var fullname: String
-    var username: String
-    var email: String
-    var profileImageUrl: URL
+struct User: Identifiable, Codable {
+    let id: String
+    let fullname: String
+    let username: String
+    let email: String
+    let profileImageUrl: URL
 }
 
 struct MockUser: Identifiable, Hashable, Codable {

@@ -66,7 +66,7 @@ struct AuthService {
             forUserId: authResult.user.uid
         )
         let user = User(
-            uid: authResult.user.uid,
+            id: authResult.user.uid,
             fullname: credentials.fullname,
             username: credentials.username,
             email: credentials.email,
