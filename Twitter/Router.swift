@@ -15,7 +15,7 @@ enum AppTab: Codable, Hashable {
 
 enum Route: Codable, Hashable {
     case conversation(Conversation)
-    case profile(MockUser)
+    case profile(User)
 }
 
 private struct RouterState: Codable {

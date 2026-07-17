@@ -13,11 +13,11 @@ struct ConversationCellView: View {
     var body: some View {
         VStack {
             HStack(spacing: 16) {
-                Image(conversation.user.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 56, height: 56)
-                    .clipShape(.circle)
+                UserProfileImageView(
+                    url: conversation.user.profileImageUrl,
+                    width: 56,
+                    height: 56
+                )
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(conversation.user.username)

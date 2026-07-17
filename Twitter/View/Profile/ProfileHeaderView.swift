@@ -8,18 +8,17 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
-    let user: MockUser
+    let user: User
 
     var body: some View {
         VStack(spacing: 0) {
-            Image(user.image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 120, height: 120)
-                .clipShape(.circle)
-                .shadow(radius: 10)
+            UserProfileImageView(
+                url: user.profileImageUrl,
+                width: 120,
+                height: 120
+            )
 
-            Text(user.name)
+            Text(user.fullname)
                 .font(.headline)
                 .foregroundStyle(.primary)
                 .padding(.top, 8)

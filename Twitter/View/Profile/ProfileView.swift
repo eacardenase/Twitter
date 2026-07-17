@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @State private var selectedOption: TweetFilterOption = .all
 
-    let user: MockUser
+    let user: User
 
     var body: some View {
         ScrollView {

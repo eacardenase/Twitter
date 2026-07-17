@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileActionView: View {
-    let user: MockUser
+    let user: User
     @Environment(Router.self) private var router
 
     var isCurrentUser: Bool {

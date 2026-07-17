@@ -34,4 +34,24 @@ struct UserService {
             throw NetworkingError.serverError(error.localizedDescription)
         }
     }
+
+    static func fetchUsers() async throws(NetworkingError) -> [User] {
+        guard let currentUserId = AuthService.currentUserId else {
+            throw NetworkingError.serverError("")
+        }
+
+        do {
+            let querySnapshot = try await Firestore.firestore().collection(
+                "users"
+            )
+            .whereField("id", isNotEqualTo: currentUserId)
+            .getDocuments()
+
+            return querySnapshot.documents.compactMap {
+                try? $0.data(as: User.self)
+            }
+        } catch {
+            throw NetworkingError.serverError(error.localizedDescription)
+        }
+    }
 }

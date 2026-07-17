@@ -9,7 +9,7 @@ import Foundation
 
 struct Conversation: Identifiable, Hashable, Codable {
     var id = UUID().uuidString
-    let user: MockUser
+    let user: User
     let messages: [MockMessage]
 }
 
