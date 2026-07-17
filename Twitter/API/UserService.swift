@@ -37,7 +37,7 @@ struct UserService {
 
     static func fetchUsers() async throws(NetworkingError) -> [User] {
         guard let currentUserId = AuthService.currentUserId else {
-            throw NetworkingError.serverError("")
+            throw NetworkingError.serverError("currentUserId is nil")
         }
 
         do {

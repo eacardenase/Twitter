@@ -11,11 +11,12 @@ struct SearchView: View {
     @State private var searchText = ""
     @Environment(Router.self) var router
     @State private var users = [User]()
+    @State private var viewModel = SearchViewModel()
 
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                ForEach(users) { user in
+                ForEach(viewModel.users) { user in
                     Button {
                         router.push(.profile(user))
                     } label: {
@@ -30,18 +31,6 @@ struct SearchView: View {
         .searchable(text: $searchText)
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
-        .task {
-            do throws(NetworkingError) {
-                users = try await UserService.fetchUsers()
-            } catch {
-                switch error {
-                case .decodingError:
-                    print("DEBUG: Failed to decode users")
-                case .serverError(let message):
-                    print("DEBUG: Failed to get users with error: \(message)")
-                }
-            }
-        }
     }
 }
 
