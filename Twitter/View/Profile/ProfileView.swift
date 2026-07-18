@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var selectedOption: TweetFilterOption = .all
-
     let user: User
+    @State private var selectedOption: TweetFilterOption = .all
 
     var body: some View {
         ScrollView {
             VStack {
-                ProfileHeaderView(user: user)
+                ProfileHeaderView(viewModel: ProfileViewModel(user: user))
 
                 FilterButtonView(selectedOption: $selectedOption)
 

@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
-    let user: User
+    @Bindable var viewModel: ProfileViewModel
 
     var body: some View {
         VStack(spacing: 0) {
             UserProfileImageView(
-                url: user.profileImageUrl,
+                url: viewModel.profileImageUrl,
                 width: 120,
                 height: 120
             )
 
-            Text(user.fullname)
+            Text(viewModel.fullname)
                 .font(.headline)
                 .foregroundStyle(.primary)
                 .padding(.top, 8)
 
-            Text("@\(user.username)")
+            Text("@\(viewModel.username)")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
 
@@ -32,12 +32,12 @@ struct ProfileHeaderView: View {
 
             ProfileStatisticsView()
 
-            ProfileActionView(user: user)
+            ProfileActionView(viewModel: viewModel)
         }
     }
 }
 
 #Preview {
-    ProfileHeaderView(user: MOCK_USERS[0])
+    ProfileHeaderView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
         .environment(Router())
 }

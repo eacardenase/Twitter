@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ProfileActionView: View {
-    let user: User
     @Environment(Router.self) private var router
-    @Environment(AuthViewModel.self) private var viewModel
+    @Environment(AuthViewModel.self) private var authViewModel
+    @Bindable var viewModel: ProfileViewModel
 
     var isCurrentUser: Bool {
-        user.id == viewModel.user?.id
+        viewModel.userId == authViewModel.user?.id
     }
 
     var body: some View {
@@ -25,14 +25,16 @@ struct ProfileActionView: View {
                 .tint(.blue)
             } else {
                 HStack(spacing: 16) {
-                    ProfileActionButton(title: "Follow") {
-                        // TODO:
+                    ProfileActionButton(title: viewModel.isFollowedText) {
+                        Task {
+                            await viewModel.follow()
+                        }
                     }
                     .tint(.blue)
 
                     ProfileActionButton(title: "Message") {
                         let conversation = Conversation(
-                            user: user,
+                            user: viewModel.user,
                             messages: []
                         )
 
@@ -47,7 +49,7 @@ struct ProfileActionView: View {
 }
 
 #Preview {
-    ProfileActionView(user: MOCK_USERS[1])
+    ProfileActionView(viewModel: ProfileViewModel(user: MOCK_USERS[1]))
         .environment(Router())
         .environment(AuthViewModel())
 }
