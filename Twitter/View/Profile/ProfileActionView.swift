@@ -10,9 +10,10 @@ import SwiftUI
 struct ProfileActionView: View {
     let user: User
     @Environment(Router.self) private var router
+    @Environment(AuthViewModel.self) private var viewModel
 
     var isCurrentUser: Bool {
-        return false
+        user.id == viewModel.user?.id
     }
 
     var body: some View {
@@ -46,6 +47,7 @@ struct ProfileActionView: View {
 }
 
 #Preview {
-    ProfileActionView(user: MOCK_USERS[0])
+    ProfileActionView(user: MOCK_USERS[1])
         .environment(Router())
+        .environment(AuthViewModel())
 }
