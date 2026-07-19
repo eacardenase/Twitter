@@ -16,6 +16,7 @@ class AuthViewModel {
 
     func verifyLogin() async {
         isLoading = true
+        defer { isLoading = false }
 
         do throws(NetworkingError) {
             user = try await AuthService.verifyLogin()
@@ -29,12 +30,11 @@ class AuthViewModel {
                 print("DEBUG: Faied to \(#function) with error: \(message)")
             }
         }
-
-        isLoading = false
     }
 
     func logUserIn(withEmail email: String, password: String) async {
         isLoading = true
+        defer { isLoading = false }
 
         do {
             user = try await AuthService.logUserIn(
@@ -44,8 +44,6 @@ class AuthViewModel {
         } catch {
             self.error = error
         }
-
-        isLoading = false
     }
 
     func logUserOut() {
@@ -60,13 +58,12 @@ class AuthViewModel {
 
     func createUser(with credentials: AuthCredentials) async {
         isLoading = true
+        defer { isLoading = false }
 
         do {
             user = try await AuthService.createrUser(with: credentials)
         } catch {
             self.error = error
         }
-
-        isLoading = false
     }
 }
