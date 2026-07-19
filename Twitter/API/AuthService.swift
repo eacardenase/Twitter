@@ -70,6 +70,8 @@ struct AuthService {
             fullname: credentials.fullname,
             username: credentials.username,
             email: credentials.email,
+            followersCount: 0,
+            followingCount: 0,
             profileImageUrl: imageUrl
         )
 

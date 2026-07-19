@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct ProfileStatisticsView: View {
+    @Bindable var viewModel: ProfileViewModel
+
     var body: some View {
         HStack(spacing: 32) {
             VStack(spacing: 0) {
-                Text("0")
+                Text(viewModel.followersCount)
                     .font(.title.bold())
 
                 Text("Followers")
@@ -20,7 +22,7 @@ struct ProfileStatisticsView: View {
             }
 
             VStack(spacing: 0) {
-                Text("1")
+                Text(viewModel.followingCount)
                     .font(.title.bold())
 
                 Text("Following")
@@ -33,5 +35,5 @@ struct ProfileStatisticsView: View {
 }
 
 #Preview {
-    ProfileStatisticsView()
+    ProfileStatisticsView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
 }

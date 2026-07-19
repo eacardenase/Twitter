@@ -27,7 +27,11 @@ struct ProfileActionView: View {
                 HStack(spacing: 16) {
                     ProfileActionButton(title: viewModel.isFollowedText) {
                         Task {
-                            await viewModel.follow()
+                            if viewModel.isFollowed {
+                                await viewModel.unfollow()
+                            } else {
+                                await viewModel.follow()
+                            }
                         }
                     }
                     .tint(.blue)

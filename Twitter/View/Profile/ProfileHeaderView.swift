@@ -30,7 +30,7 @@ struct ProfileHeaderView: View {
             Text("Billionaire by day, dark knight by night")
                 .padding(.top, 8)
 
-            ProfileStatisticsView()
+            ProfileStatisticsView(viewModel: viewModel)
 
             ProfileActionView(viewModel: viewModel)
         }

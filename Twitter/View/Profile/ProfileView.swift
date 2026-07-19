@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct ProfileView: View {
-    let user: User
+    @State private var viewModel: ProfileViewModel
     @State private var selectedOption: TweetFilterOption = .all
+
+    init(user: User) {
+        self.viewModel = ProfileViewModel(user: user)
+    }
 
     var body: some View {
         ScrollView {
             VStack {
-                ProfileHeaderView(viewModel: ProfileViewModel(user: user))
+                ProfileHeaderView(viewModel: viewModel)
 
                 FilterButtonView(selectedOption: $selectedOption)
 
@@ -25,7 +29,7 @@ struct ProfileView: View {
             }
         }
         .scrollBounceBehavior(.basedOnSize)
-        .navigationTitle(user.username)
+        .navigationTitle(viewModel.username)
         .navigationBarTitleDisplayMode(.inline)
     }
 }

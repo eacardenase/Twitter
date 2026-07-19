@@ -11,7 +11,7 @@ import SwiftUI
 class ProfileViewModel {
     var user: User
     var error: Error?
-    private var isFollowed = false
+    var isFollowed = false
 
     init(user: User) {
         self.user = user
@@ -33,6 +33,14 @@ class ProfileViewModel {
         user.profileImageUrl
     }
 
+    var followersCount: String {
+        user.followersCount.formatted()
+    }
+
+    var followingCount: String {
+        user.followingCount.formatted()
+    }
+
     var isFollowedText: String {
         isFollowed ? "Following" : "Follow"
     }
@@ -42,6 +50,7 @@ class ProfileViewModel {
             try await FollowingService.follow(user)
 
             isFollowed = true
+            user.followersCount += 1
         } catch {
             self.error = error
 
@@ -56,5 +65,6 @@ class ProfileViewModel {
 
     func unfollow() async {
         isFollowed = false
+        user.followersCount -= 1
     }
 }
