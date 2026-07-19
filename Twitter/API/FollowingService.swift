@@ -18,9 +18,11 @@ struct FollowingService {
         }
 
         do {
-            let currentUser = try await UserService.fetchUser(
+            var currentUser = try await UserService.fetchUser(
                 withId: currentUserId
             )
+
+            currentUser.followingCount += 1
 
             try Firestore.firestore()
                 .collection("following").document(currentUserId)

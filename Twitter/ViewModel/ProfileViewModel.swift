@@ -47,10 +47,11 @@ class ProfileViewModel {
 
     func follow() async {
         do throws(NetworkingError) {
+            user.followersCount += 1
+
             try await FollowingService.follow(user)
 
             isFollowed = true
-            user.followersCount += 1
         } catch {
             self.error = error
 
@@ -64,7 +65,8 @@ class ProfileViewModel {
     }
 
     func unfollow() async {
-        isFollowed = false
         user.followersCount -= 1
+
+        isFollowed = false
     }
 }
