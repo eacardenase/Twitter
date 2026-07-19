@@ -65,8 +65,21 @@ class ProfileViewModel {
     }
 
     func unfollow() async {
-        user.followersCount -= 1
+        do throws(NetworkingError) {
+            user.followersCount -= 1
 
-        isFollowed = false
+            try await FollowingService.unfollow(user)
+
+            isFollowed = false
+        } catch {
+            self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Faied to unfollow user with error: \(message)")
+            }
+        }
     }
 }

@@ -38,11 +38,29 @@ struct FollowingService {
         }
     }
 
-    static func unfollowUser(withId id: String) async throws(NetworkingError) {
+    static func unfollow(_ user: User) async throws(NetworkingError) {
         guard let currentUserId = AuthService.currentUserId else {
             throw NetworkingError.serverError(
                 "Failed to get user, current user is nil."
             )
+        }
+
+        do {
+            var currentUser = try await UserService.fetchUser(
+                withId: currentUserId
+            )
+
+            try await Firestore.firestore()
+                .collection("following").document(currentUserId)
+                .collection("user-following").document(user.id)
+                .delete()
+
+            try await Firestore.firestore()
+                .collection("followers").document(user.id)
+                .collection("user-followers").document(currentUserId)
+                .delete()
+        } catch {
+            throw .serverError(error.localizedDescription)
         }
     }
 }
