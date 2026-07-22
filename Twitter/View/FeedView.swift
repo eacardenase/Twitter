@@ -32,7 +32,7 @@ struct FeedView: View {
         .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $isPresentingNewTweetView) {
             if let user = viewModel.user {
-                NewTweetView(viewModel: TweetsViewModel(user: user))
+                NewTweetView(viewModel: TweetViewModel(user: user))
             }
         }
         .alert("Log Out?", isPresented: $isPresentingLogOutAlert) {

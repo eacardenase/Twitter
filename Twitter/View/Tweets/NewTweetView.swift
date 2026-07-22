@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct NewTweetView: View {
-    @State var viewModel: TweetsViewModel
+    @State var viewModel: TweetViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var tweetBody = ""
 
     var body: some View {
         NavigationStack {
@@ -24,7 +23,7 @@ struct NewTweetView: View {
 
                     TextField(
                         "What's happening?",
-                        text: $tweetBody,
+                        text: $viewModel.body,
                         axis: .vertical
                     )
                     .lineLimit(10, reservesSpace: true)
@@ -42,6 +41,8 @@ struct NewTweetView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
+                        viewModel.store()
+
                         dismiss()
                     } label: {
                         Text("Tweet")
@@ -51,7 +52,7 @@ struct NewTweetView: View {
                     }
                     .buttonStyle(.borderedProminent)
                     .buttonBorderShape(.capsule)
-                    .disabled(tweetBody.isEmpty)
+                    .disabled(!viewModel.isValid)
                 }
             }
         }
@@ -59,5 +60,5 @@ struct NewTweetView: View {
 }
 
 #Preview {
-    NewTweetView(viewModel: TweetsViewModel(user: MOCK_USERS[0]))
+    NewTweetView(viewModel: TweetViewModel(user: MOCK_USERS[0]))
 }
