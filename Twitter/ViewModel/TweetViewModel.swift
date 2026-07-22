@@ -11,6 +11,7 @@ import SwiftUI
 class TweetViewModel {
     let user: User
     var body: String = ""
+    var error: Error?
 
     init(user: User) {
         self.user = user
@@ -37,7 +38,7 @@ class TweetViewModel {
     }
 
     func store() {
-        do {
+        do throws(NetworkingError) {
             let tweet = Tweet(
                 body: body,
                 user: user,
@@ -47,9 +48,14 @@ class TweetViewModel {
 
             try TweetsService.upload(tweet)
         } catch {
-            print(
-                "DEBUG: Failed to upload tweet with error: \(error.localizedDescription)"
-            )
+            self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Failed to upload tweet with error: \(message)")
+            }
         }
     }
 }

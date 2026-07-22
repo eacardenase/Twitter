@@ -97,7 +97,9 @@ class ProfileViewModel {
             case .decodingError:
                 print("DEBUG: Decoding Error")
             case .serverError(let message):
-                print("DEBUG: Faied to unfollow user with error: \(message)")
+                print(
+                    "DEBUG: Faied to check if user is followed with error: \(message)"
+                )
             }
         }
     }

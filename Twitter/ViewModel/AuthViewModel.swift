@@ -27,7 +27,7 @@ class AuthViewModel {
             case .decodingError:
                 print("DEBUG: Decoding Error")
             case .serverError(let message):
-                print("DEBUG: Faied to \(#function) with error: \(message)")
+                print("DEBUG: Faied to verify login with error: \(message)")
             }
         }
     }
