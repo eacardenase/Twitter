@@ -8,22 +8,24 @@
 import SwiftUI
 
 struct TweetCellView: View {
+    let tweet: Tweet
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 16) {
-                Image(.batman)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 56, height: 56)
-                    .clipShape(.circle)
+                UserProfileImageView(
+                    url: tweet.user.profileImageUrl,
+                    width: 56,
+                    height: 56
+                )
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text("Bruce Wayne")
+                        Text(tweet.user.fullname)
                             .font(.subheadline.bold())
 
                         Group {
-                            Text("@batman")
+                            Text("@\(tweet.user.username)")
 
                             Text("•")
 
@@ -33,9 +35,7 @@ struct TweetCellView: View {
                         .foregroundStyle(.secondary)
                     }
 
-                    Text(
-                        "It's not who I am underneath, but what I do that defines me"
-                    )
+                    Text(tweet.body)
                 }
             }
             .padding(.bottom, 8)
@@ -82,8 +82,4 @@ struct TweetCellView: View {
         }
         .padding(.top)
     }
-}
-
-#Preview {
-    TweetCellView()
 }

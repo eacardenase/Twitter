@@ -22,10 +22,10 @@ struct ProfileView: View {
 
                 FilterButtonView(selectedOption: $selectedOption)
 
-                ForEach(0..<10) { _ in
-                    TweetCellView()
-                }
-                .padding(.horizontal)
+//                ForEach(0..<10) { _ in
+//                    TweetCellView()
+//                }
+//                .padding(.horizontal)
             }
         }
         .scrollBounceBehavior(.basedOnSize)

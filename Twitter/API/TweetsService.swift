@@ -19,4 +19,19 @@ struct TweetsService {
             throw .serverError(error.localizedDescription)
         }
     }
+
+    static func fetchTweets() async throws(NetworkingError) -> [Tweet] {
+        do {
+            let querySnapshot = try await Firestore.firestore().collection(
+                "tweets"
+            )
+            .getDocuments()
+
+            return querySnapshot.documents.compactMap {
+                try? $0.data(as: Tweet.self)
+            }
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
+    }
 }
