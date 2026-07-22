@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FeedView: View {
     @State private var isPresentingNewTweetView = false
+    @State private var isPresentingLogOutAlert = false
+    @Environment(AuthViewModel.self) var viewModel
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -30,6 +32,24 @@ struct FeedView: View {
         .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $isPresentingNewTweetView) {
             NewTweetView()
+        }
+        .alert("Log Out?", isPresented: $isPresentingLogOutAlert) {
+            Button("Log Out", role: .destructive) {
+                withAnimation(.easeInOut) {
+                    viewModel.logUserOut()
+                }
+            }
+
+            Button("Cancel", role: .cancel) {}
+        }
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    isPresentingLogOutAlert.toggle()
+                } label: {
+                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                }
+            }
         }
     }
 }
