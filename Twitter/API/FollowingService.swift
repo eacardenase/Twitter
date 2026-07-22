@@ -46,10 +46,6 @@ struct FollowingService {
         }
 
         do {
-            var currentUser = try await UserService.fetchUser(
-                withId: currentUserId
-            )
-
             try await Firestore.firestore()
                 .collection("following").document(currentUserId)
                 .collection("user-following").document(user.id)
@@ -59,6 +55,27 @@ struct FollowingService {
                 .collection("followers").document(user.id)
                 .collection("user-followers").document(currentUserId)
                 .delete()
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
+    }
+
+    static func checkIfUserIsFollowed(_ user: User)
+        async throws(NetworkingError) -> Bool
+    {
+        guard let currentUserId = AuthService.currentUserId else {
+            throw NetworkingError.serverError(
+                "Failed to get user, current user is nil."
+            )
+        }
+
+        do {
+            let snapshot = try await Firestore.firestore()
+                .collection("following").document(currentUserId)
+                .collection("user-following").document(user.id)
+                .getDocument()
+
+            return snapshot.exists
         } catch {
             throw .serverError(error.localizedDescription)
         }

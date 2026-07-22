@@ -15,6 +15,10 @@ class ProfileViewModel {
 
     init(user: User) {
         self.user = user
+
+        Task {
+            await checkIfUserIsFollowed()
+        }
     }
 
     var userId: String {
@@ -48,12 +52,12 @@ class ProfileViewModel {
     func follow() async {
         do throws(NetworkingError) {
             user.followersCount += 1
+            isFollowed = true
 
             try await FollowingService.follow(user)
-
-            isFollowed = true
         } catch {
             self.error = error
+            isFollowed = false
 
             switch error {
             case .decodingError:
@@ -67,10 +71,25 @@ class ProfileViewModel {
     func unfollow() async {
         do throws(NetworkingError) {
             user.followersCount -= 1
+            isFollowed = false
 
             try await FollowingService.unfollow(user)
+        } catch {
+            self.error = error
+            isFollowed = true
 
-            isFollowed = false
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Faied to unfollow user with error: \(message)")
+            }
+        }
+    }
+
+    func checkIfUserIsFollowed() async {
+        do throws(NetworkingError) {
+            isFollowed = try await FollowingService.checkIfUserIsFollowed(user)
         } catch {
             self.error = error
 
