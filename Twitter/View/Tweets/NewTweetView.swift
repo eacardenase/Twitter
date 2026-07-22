@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct NewTweetView: View {
+    @State var viewModel: TweetsViewModel
     @Environment(\.dismiss) var dismiss
     @State private var tweetBody = ""
 
@@ -15,11 +16,11 @@ struct NewTweetView: View {
         NavigationStack {
             VStack {
                 HStack(alignment: .top, spacing: 16) {
-                    Image(.batman)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 64, height: 64)
-                        .clipShape(.circle)
+                    UserProfileImageView(
+                        url: viewModel.profileImageUrl,
+                        width: 64,
+                        height: 64
+                    )
 
                     TextField(
                         "What's happening?",
@@ -28,7 +29,6 @@ struct NewTweetView: View {
                     )
                     .lineLimit(10, reservesSpace: true)
                 }
-                .padding(.top)
 
                 Spacer()
             }
@@ -59,5 +59,5 @@ struct NewTweetView: View {
 }
 
 #Preview {
-    NewTweetView()
+    NewTweetView(viewModel: TweetsViewModel(user: MOCK_USERS[0]))
 }

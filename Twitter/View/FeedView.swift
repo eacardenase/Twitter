@@ -31,7 +31,9 @@ struct FeedView: View {
         .navigationTitle("Home")
         .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $isPresentingNewTweetView) {
-            NewTweetView()
+            if let user = viewModel.user {
+                NewTweetView(viewModel: TweetsViewModel(user: user))
+            }
         }
         .alert("Log Out?", isPresented: $isPresentingLogOutAlert) {
             Button("Log Out", role: .destructive) {
