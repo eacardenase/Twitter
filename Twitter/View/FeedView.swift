@@ -18,7 +18,7 @@ struct FeedView: View {
             Group {
                 if !viewModel.tweets.isEmpty {
                     ScrollView {
-                        VStack {
+                        LazyVStack {
                             ForEach(viewModel.tweets) {
                                 TweetCellView(tweet: $0)
                             }
@@ -26,6 +26,11 @@ struct FeedView: View {
                         .padding(.horizontal)
                     }
                     .scrollIndicators(.never)
+                    .refreshable {
+                        Task {
+                            await viewModel.fetchAllTweets()
+                        }
+                    }
                 } else {
                     ContentUnavailableView(
                         "No tweets found",
@@ -59,7 +64,13 @@ struct FeedView: View {
                 Button {
                     isPresentingLogOutAlert.toggle()
                 } label: {
-                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                    if let user = authViewModel.user {
+                        UserProfileImageView(
+                            url: user.profileImageUrl,
+                            width: 32,
+                            height: 32
+                        )
+                    }
                 }
             }
         }

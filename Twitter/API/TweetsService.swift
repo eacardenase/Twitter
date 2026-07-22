@@ -20,7 +20,7 @@ struct TweetsService {
         }
     }
 
-    static func fetchTweets() async throws(NetworkingError) -> [Tweet] {
+    static func fetchAllTweets() async throws(NetworkingError) -> [Tweet] {
         do {
             let querySnapshot = try await Firestore.firestore().collection(
                 "tweets"
@@ -33,5 +33,11 @@ struct TweetsService {
         } catch {
             throw .serverError(error.localizedDescription)
         }
+    }
+
+    static func fetchTweetsFor(_ user: User)
+        async throws(NetworkingError) -> [Tweet]
+    {
+        return []
     }
 }

@@ -15,16 +15,16 @@ class FeedViewModel {
 
     init() {
         Task {
-            await fetchTweets()
+            await fetchAllTweets()
         }
     }
 
-    func fetchTweets() async {
+    func fetchAllTweets() async {
         isLoading = true
         defer { isLoading = false }
 
         do throws(NetworkingError) {
-            tweets = try await TweetsService.fetchTweets()
+            tweets = try await TweetsService.fetchAllTweets()
         } catch {
             self.error = error
         }

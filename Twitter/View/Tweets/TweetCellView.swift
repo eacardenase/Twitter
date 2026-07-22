@@ -29,7 +29,11 @@ struct TweetCellView: View {
 
                             Text("•")
 
-                            Text("2w")
+                            Text(
+                                tweet.createdAt.formatted(
+                                    .dateTime.day().month()
+                                )
+                            )
                         }
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
