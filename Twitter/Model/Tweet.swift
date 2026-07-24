@@ -9,9 +9,9 @@ import Foundation
 
 struct Tweet: Identifiable, Hashable, Codable {
     var id: String = UUID().uuidString
-    let body: String
+    var body: String
     let user: User
-    let likes: Int
+    var likes: Int
     let createdAt: Date
 }
 

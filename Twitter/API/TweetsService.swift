@@ -25,6 +25,7 @@ struct TweetsService {
             let querySnapshot = try await Firestore.firestore().collection(
                 "tweets"
             )
+            .order(by: "createdAt", descending: true)
             .getDocuments()
 
             return querySnapshot.documents.compactMap {

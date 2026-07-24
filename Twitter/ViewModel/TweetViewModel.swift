@@ -10,11 +10,17 @@ import SwiftUI
 @Observable
 class TweetViewModel {
     let user: User
-    var body: String = ""
+    var tweet: Tweet
     var error: Error?
 
     init(user: User) {
         self.user = user
+        self.tweet = Tweet(
+            body: "",
+            user: user,
+            likes: 0,
+            createdAt: .now
+        )
     }
 
     var userId: String {
@@ -34,18 +40,13 @@ class TweetViewModel {
     }
 
     var isValid: Bool {
-        !body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        !tweet.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     func store() {
         do throws(NetworkingError) {
-            let tweet = Tweet(
-                body: body,
-                user: user,
-                likes: 0,
-                createdAt: .now
-            )
-
+            print(tweet)
+            
             try TweetsService.upload(tweet)
         } catch {
             self.error = error

@@ -23,7 +23,7 @@ struct NewTweetView: View {
 
                     TextField(
                         "What's happening?",
-                        text: $viewModel.body,
+                        text: $viewModel.tweet.body,
                         axis: .vertical
                     )
                     .lineLimit(10, reservesSpace: true)
