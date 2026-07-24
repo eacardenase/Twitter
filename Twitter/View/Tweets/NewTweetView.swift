@@ -23,7 +23,7 @@ struct NewTweetView: View {
 
                     TextField(
                         "What's happening?",
-                        text: $viewModel.tweet.body,
+                        text: $viewModel.body,
                         axis: .vertical
                     )
                     .lineLimit(10, reservesSpace: true)
@@ -60,5 +60,5 @@ struct NewTweetView: View {
 }
 
 #Preview {
-    NewTweetView(viewModel: TweetViewModel(user: MOCK_USERS[0]))
+    NewTweetView(viewModel: TweetViewModel(tweet: MOCK_TWEETS[0]))
 }

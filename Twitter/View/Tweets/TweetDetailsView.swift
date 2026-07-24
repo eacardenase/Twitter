@@ -8,39 +8,37 @@
 import SwiftUI
 
 struct TweetDetailsView: View {
-    let tweet: Tweet
+    @Bindable var viewModel: TweetViewModel
+
+    init(tweet: Tweet) {
+        self.viewModel = TweetViewModel(tweet: tweet)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 UserProfileImageView(
-                    url: tweet.user.profileImageUrl,
+                    url: viewModel.profileImageUrl,
                     width: 64,
                     height: 64
                 )
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(tweet.user.fullname)
+                    Text(viewModel.fullname)
                         .font(.subheadline.bold())
 
-                    Text("@\(tweet.user.username)")
+                    Text("@\(viewModel.username)")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
             }
 
-            Text(tweet.body)
+            Text(viewModel.body)
                 .font(.title2)
 
-            HStack(spacing: 4) {
-                Text(tweet.createdAt.formatted(.dateTime.hour().minute()))
-
-                Text("•")
-
-                Text(tweet.createdAt.formatted(.dateTime.day().month().year()))
-            }
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
+            Text(viewModel.formattedDate)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
 
             Divider()
 
@@ -54,7 +52,7 @@ struct TweetDetailsView: View {
                 }
 
                 HStack(spacing: 4) {
-                    Text(tweet.likes.formatted())
+                    Text(viewModel.likes)
                         .fontWeight(.bold)
 
                     Text("Likes")

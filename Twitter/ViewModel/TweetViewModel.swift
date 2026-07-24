@@ -9,44 +9,57 @@ import SwiftUI
 
 @Observable
 class TweetViewModel {
-    let user: User
-    var tweet: Tweet
+    private var tweet: Tweet
     var error: Error?
 
-    init(user: User) {
-        self.user = user
-        self.tweet = Tweet(
-            body: "",
-            user: user,
-            likes: 0,
-            createdAt: .now
-        )
+    init(tweet: Tweet) {
+        self.tweet = tweet
     }
 
     var userId: String {
-        user.id
+        tweet.user.id
     }
 
     var username: String {
-        user.username
+        tweet.user.username
     }
 
     var fullname: String {
-        user.fullname
+        tweet.user.fullname
     }
 
     var profileImageUrl: URL {
-        user.profileImageUrl
+        tweet.user.profileImageUrl
+    }
+
+    var body: String {
+        get { tweet.body }
+        set { tweet.body = newValue }
+    }
+
+    var likes: String {
+        tweet.likes.formatted()
+    }
+
+    var createdAt: Date {
+        tweet.createdAt
     }
 
     var isValid: Bool {
         !tweet.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
+    var formattedDate: String {
+        let hour = tweet.createdAt.formatted(.dateTime.hour().minute())
+        let day = tweet.createdAt.formatted(.dateTime.day().month().year())
+
+        return "\(hour) • \(day)"
+    }
+
     func store() {
         do throws(NetworkingError) {
             print(tweet)
-            
+
             try TweetsService.upload(tweet)
         } catch {
             self.error = error
