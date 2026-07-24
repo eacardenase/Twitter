@@ -12,6 +12,7 @@ struct FeedView: View {
     @State private var isPresentingLogOutAlert = false
     @State private var viewModel = FeedViewModel()
     @Environment(AuthViewModel.self) var authViewModel
+    @Environment(Router.self) private var router
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -19,8 +20,13 @@ struct FeedView: View {
                 if !viewModel.tweets.isEmpty {
                     ScrollView {
                         LazyVStack {
-                            ForEach(viewModel.tweets) {
-                                TweetCellView(tweet: $0)
+                            ForEach(viewModel.tweets) { tweet in
+                                Button {
+                                    router.push(.tweet(tweet))
+                                } label: {
+                                    TweetCellView(tweet: tweet)
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
                         .padding(.horizontal)
@@ -79,4 +85,6 @@ struct FeedView: View {
 
 #Preview {
     FeedView()
+        .environment(Router())
+        .environment(AuthViewModel())
 }

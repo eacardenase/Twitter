@@ -7,10 +7,19 @@
 
 import Foundation
 
-struct Tweet: Identifiable, Codable {
+struct Tweet: Identifiable, Hashable, Codable {
     var id: String = UUID().uuidString
     let body: String
     let user: User
     let likes: Int
     let createdAt: Date
 }
+
+let MOCK_TWEETS: [Tweet] = [
+    .init(
+        body: "It's not who I am underneath, but what I do that defines me.",
+        user: MOCK_USERS[0],
+        likes: 0,
+        createdAt: .now
+    )
+]

@@ -15,6 +15,9 @@ struct AppView: View {
             Tab("Home", systemImage: "house", value: .home) {
                 NavigationStack(path: $router.homePath) {
                     FeedView()
+                        .navigationDestination(for: Route.self) {
+                            routeView($0)
+                        }
                 }
             }
 
@@ -26,8 +29,7 @@ struct AppView: View {
                 NavigationStack(path: $router.searchPath) {
                     SearchView()
                         .navigationDestination(for: Route.self) {
-                            route in
-                            routeView(route)
+                            routeView($0)
                         }
                 }
             }
@@ -36,8 +38,7 @@ struct AppView: View {
                 NavigationStack(path: $router.messagesPath) {
                     ConversationsView()
                         .navigationDestination(for: Route.self) {
-                            route in
-                            routeView(route)
+                            routeView($0)
                         }
                 }
             }
@@ -48,6 +49,8 @@ struct AppView: View {
     @ViewBuilder
     private func routeView(_ route: Route) -> some View {
         switch route {
+        case .tweet(let tweet):
+            TweetDetailsView(tweet: tweet)
         case .conversation(let conversation):
             ChatView(conversation: conversation)
         case .profile(let user):
