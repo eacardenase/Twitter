@@ -16,7 +16,7 @@ enum AppTab: Codable, Hashable {
 enum Route: Codable, Hashable {
     case conversation(Conversation)
     case profile(User)
-    case tweet(Tweet)
+    case tweet(TweetViewModel)
 }
 
 private struct RouterState: Codable {

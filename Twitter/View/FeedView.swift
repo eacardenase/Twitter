@@ -20,11 +20,13 @@ struct FeedView: View {
                 if !viewModel.tweets.isEmpty {
                     ScrollView {
                         LazyVStack {
-                            ForEach(viewModel.tweets) { tweet in
+                            ForEach(viewModel.tweets) {
+                                let tweetViewModel = TweetViewModel(tweet: $0)
+
                                 Button {
-                                    router.push(.tweet(tweet))
+                                    router.push(.tweet(tweetViewModel))
                                 } label: {
-                                    TweetCellView(tweet: tweet)
+                                    TweetCellView(viewModel: tweetViewModel)
                                 }
                                 .buttonStyle(.plain)
                             }

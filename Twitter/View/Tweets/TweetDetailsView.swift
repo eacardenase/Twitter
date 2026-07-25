@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct TweetDetailsView: View {
-    @State var viewModel: TweetViewModel
-
-    init(tweet: Tweet) {
-        self.viewModel = TweetViewModel(tweet: tweet)
-    }
+    @Bindable var viewModel: TweetViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -46,7 +42,7 @@ struct TweetDetailsView: View {
 
             Divider()
 
-            TweetActionsView()
+            TweetActionsView(viewModel: viewModel)
 
             Divider()
 
@@ -57,5 +53,5 @@ struct TweetDetailsView: View {
 }
 
 #Preview {
-    TweetDetailsView(tweet: MOCK_TWEETS[0])
+    TweetDetailsView(viewModel: TweetViewModel(tweet: MOCK_TWEETS[0]))
 }

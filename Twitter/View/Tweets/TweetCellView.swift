@@ -8,29 +8,32 @@
 import SwiftUI
 
 struct TweetCellView: View {
-    let tweet: Tweet
+    @Bindable var viewModel: TweetViewModel
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 16) {
                 UserProfileImageView(
-                    url: tweet.user.profileImageUrl,
+                    url: viewModel.profileImageUrl,
                     width: 56,
                     height: 56
                 )
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
-                        Text(tweet.user.fullname)
+                        Text(viewModel.fullname)
                             .font(.subheadline.bold())
+                            .lineLimit(1)
 
+                        Spacer()
+                        
                         Group {
-                            Text("@\(tweet.user.username)")
+                            Text("@\(viewModel.username)")
 
                             Text("•")
 
                             Text(
-                                tweet.createdAt.formatted(
+                                viewModel.createdAt.formatted(
                                     .dateTime.day().month()
                                 )
                             )
@@ -39,12 +42,12 @@ struct TweetCellView: View {
                         .foregroundStyle(.secondary)
                     }
 
-                    Text(tweet.body)
+                    Text(viewModel.body)
                 }
             }
             .padding(.bottom, 8)
 
-            TweetActionsView()
+            TweetActionsView(viewModel: viewModel)
 
             Divider()
         }
@@ -53,5 +56,5 @@ struct TweetCellView: View {
 }
 
 #Preview {
-    TweetCellView(tweet: MOCK_TWEETS[0])
+    TweetCellView(viewModel: TweetViewModel(tweet: MOCK_TWEETS[0]))
 }

@@ -49,8 +49,8 @@ struct AppView: View {
     @ViewBuilder
     private func routeView(_ route: Route) -> some View {
         switch route {
-        case .tweet(let tweet):
-            TweetDetailsView(tweet: tweet)
+        case .tweet(let tweetViewModel):
+            TweetDetailsView(viewModel: tweetViewModel)
         case .conversation(let conversation):
             ChatView(conversation: conversation)
         case .profile(let user):
