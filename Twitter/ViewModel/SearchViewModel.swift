@@ -13,16 +13,10 @@ class SearchViewModel {
     var isLoading = false
     var users = [User]()
 
-    init() {
-        Task {
-            await fetchUsers()
-        }
-    }
-
     func fetchUsers() async {
         isLoading = true
         defer { isLoading = false }
-        
+
         do throws(NetworkingError) {
             users = try await UserService.fetchUsers()
         } catch {

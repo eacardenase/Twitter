@@ -42,6 +42,11 @@ struct SearchView: View {
         .searchable(text: $searchText)
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            Task {
+                await viewModel.fetchUsers()
+            }
+        }
     }
 }
 

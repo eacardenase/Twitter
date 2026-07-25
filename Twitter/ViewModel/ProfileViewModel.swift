@@ -17,7 +17,7 @@ class ProfileViewModel: Codable {
         self.user = user
 
         Task {
-//            await checkIfUserIsFollowed()
+            await checkIfUserIsFollowed()
         }
     }
 
@@ -76,18 +76,18 @@ class ProfileViewModel: Codable {
             isFollowed.toggle()
             user.followersCount += 1
 
-//            try await FollowingService.follow(user)
+            try await FollowingService.follow(user)
         } catch {
             isFollowed.toggle()
             user.followersCount -= 1
             self.error = error
 
-//            switch error {
-//            case .decodingError:
-//                print("DEBUG: Decoding Error")
-//            case .serverError(let message):
-//                print("DEBUG: Faied to follow user with error: \(message)")
-//            }
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Faied to follow user with error: \(message)")
+            }
         }
     }
 
@@ -96,18 +96,18 @@ class ProfileViewModel: Codable {
             isFollowed.toggle()
             user.followersCount -= 1
 
-            //            try await FollowingService.unfollow(user)
+            try await FollowingService.unfollow(user)
         } catch {
             isFollowed.toggle()
             user.followersCount += 1
             self.error = error
 
-            //            switch error {
-            //            case .decodingError:
-            //                print("DEBUG: Decoding Error")
-            //            case .serverError(let message):
-            //                print("DEBUG: Faied to unfollow user with error: \(message)")
-            //            }
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Faied to unfollow user with error: \(message)")
+            }
         }
     }
 

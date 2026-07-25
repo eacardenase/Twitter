@@ -46,6 +46,7 @@ struct TweetCellView: View {
                 }
             }
             .padding(.bottom, 8)
+            .contentShape(.rect)
 
             TweetActionsView(viewModel: viewModel)
 
