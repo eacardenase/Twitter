@@ -49,7 +49,6 @@ struct ProfileActionView: View {
             }
         }
         .padding(.horizontal)
-        .animation(.easeInOut, value: viewModel.isFollowed)
     }
 }
 

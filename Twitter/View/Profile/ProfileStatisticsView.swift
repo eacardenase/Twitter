@@ -31,7 +31,6 @@ struct ProfileStatisticsView: View {
             }
         }
         .padding()
-        .animation(.easeInOut, value: viewModel.followersCount)
     }
 }
 
