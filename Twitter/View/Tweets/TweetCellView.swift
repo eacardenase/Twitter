@@ -44,46 +44,14 @@ struct TweetCellView: View {
             }
             .padding(.bottom, 8)
 
-            HStack {
-                Button {
-
-                } label: {
-                    Image(systemName: "bubble.left")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "arrow.2.squarepath")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "heart")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "bookmark")
-                        .frame(width: 32, height: 32)
-                }
-            }
-            .font(.title3)
-            .foregroundStyle(.secondary)
+            TweetActionsView()
 
             Divider()
         }
         .padding(.top)
     }
+}
+
+#Preview {
+    TweetCellView(tweet: MOCK_TWEETS[0])
 }

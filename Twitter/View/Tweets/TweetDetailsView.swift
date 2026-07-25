@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct TweetDetailsView: View {
-    @Bindable var viewModel: TweetViewModel
+    @State var viewModel: TweetViewModel
 
     init(tweet: Tweet) {
         self.viewModel = TweetViewModel(tweet: tweet)
@@ -42,63 +42,11 @@ struct TweetDetailsView: View {
 
             Divider()
 
-            HStack(spacing: 16) {
-                HStack(spacing: 4) {
-                    Text("0")
-                        .fontWeight(.bold)
-
-                    Text("Retweets")
-                        .foregroundStyle(.secondary)
-                }
-
-                HStack(spacing: 4) {
-                    Text(viewModel.likes)
-                        .fontWeight(.bold)
-
-                    Text("Likes")
-                        .foregroundStyle(.secondary)
-                }
-            }
+            TweetStatisticsView(viewModel: viewModel)
 
             Divider()
 
-            HStack {
-                Button {
-
-                } label: {
-                    Image(systemName: "bubble.left")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "arrow.2.squarepath")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "heart")
-                        .frame(width: 32, height: 32)
-                }
-
-                Spacer()
-
-                Button {
-
-                } label: {
-                    Image(systemName: "bookmark")
-                        .frame(width: 32, height: 32)
-                }
-            }
-            .font(.title3)
-            .foregroundStyle(.secondary)
+            TweetActionsView()
 
             Divider()
 
