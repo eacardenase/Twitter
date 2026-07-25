@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @State private var viewModel: ProfileViewModel
+    @Bindable var viewModel: ProfileViewModel
     @State private var selectedOption: TweetFilterOption = .all
-
-    init(user: User) {
-        self.viewModel = ProfileViewModel(user: user)
-    }
 
     var body: some View {
         ScrollView {
@@ -22,10 +18,10 @@ struct ProfileView: View {
 
                 FilterButtonView(selectedOption: $selectedOption)
 
-//                ForEach(0..<10) { _ in
-//                    TweetCellView()
-//                }
-//                .padding(.horizontal)
+                //                ForEach(0..<10) { _ in
+                //                    TweetCellView()
+                //                }
+                //                .padding(.horizontal)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
@@ -36,7 +32,7 @@ struct ProfileView: View {
 
 #Preview {
     NavigationStack {
-        ProfileView(user: MOCK_USERS[0])
+        ProfileView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
             .environment(Router())
     }
 }

@@ -8,22 +8,22 @@
 import SwiftUI
 
 struct UserCellView: View {
-    let user: User
+    let viewModel: ProfileViewModel
 
     var body: some View {
         HStack(spacing: 16) {
             UserProfileImageView(
-                url: user.profileImageUrl,
+                url: viewModel.profileImageUrl,
                 width: 56,
                 height: 56
             )
 
             VStack(alignment: .leading, spacing: 4) {
-                Text(user.username)
+                Text(viewModel.username)
                     .font(.subheadline)
                     .fontWeight(.semibold)
 
-                Text(user.fullname)
+                Text(viewModel.fullname)
             }
 
             Spacer()
@@ -33,5 +33,5 @@ struct UserCellView: View {
 }
 
 #Preview {
-    UserCellView(user: MOCK_USERS[0])
+    UserCellView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
 }

@@ -18,11 +18,13 @@ struct SearchView: View {
             if !viewModel.users.isEmpty {
                 ScrollView {
                     VStack(spacing: 16) {
-                        ForEach(viewModel.users) { user in
+                        ForEach(viewModel.users) {
+                            let profileViewModel = ProfileViewModel(user: $0)
+
                             Button {
-                                router.push(.profile(user))
+                                router.push(.profile(profileViewModel))
                             } label: {
-                                UserCellView(user: user)
+                                UserCellView(viewModel: profileViewModel)
                             }
                             .buttonStyle(.plain)
                         }

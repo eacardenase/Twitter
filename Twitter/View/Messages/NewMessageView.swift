@@ -18,6 +18,8 @@ struct NewMessageView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(viewModel.users) { user in
+                        let profileViewModel = ProfileViewModel(user: user)
+
                         Button {
                             dismiss()
 
@@ -30,7 +32,7 @@ struct NewMessageView: View {
                                 router.push(.conversation(conversation))
                             }
                         } label: {
-                            UserCellView(user: user)
+                            UserCellView(viewModel: profileViewModel)
                         }
                         .buttonStyle(.plain)
                     }

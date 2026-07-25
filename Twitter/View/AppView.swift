@@ -53,8 +53,8 @@ struct AppView: View {
             TweetDetailsView(viewModel: tweetViewModel)
         case .conversation(let conversation):
             ChatView(conversation: conversation)
-        case .profile(let user):
-            ProfileView(user: user)
+        case .profile(let userViewModel):
+            ProfileView(viewModel: userViewModel)
         }
     }
 }
