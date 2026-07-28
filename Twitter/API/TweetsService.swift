@@ -79,4 +79,25 @@ struct TweetsService {
             )
         }
     }
+
+    static func checkIfTweetIsLiked(
+        _ tweet: Tweet
+    ) async throws(NetworkingError) -> Bool {
+        guard let currentUserId = AuthService.currentUserId else {
+            throw NetworkingError.serverError(
+                "Failed to get user, current user is nil."
+            )
+        }
+
+        do {
+            let snapshot = try await Firestore.firestore()
+                .collection("users").document(currentUserId)
+                .collection("tweet-likes").document(tweet.id)
+                .getDocument()
+
+            return snapshot.exists
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
+    }
 }

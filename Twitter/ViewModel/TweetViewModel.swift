@@ -17,6 +17,10 @@ class TweetViewModel: Codable {
 
     init(tweet: Tweet) {
         self.tweet = tweet
+
+        Task {
+            await checkIfTweetIsLiked()
+        }
     }
 
     // MARK: - Codable
@@ -105,18 +109,18 @@ class TweetViewModel: Codable {
             didLike.toggle()
             tweet.likes += 1
 
-            //            try await TweetsService.like(tweet)
+            try await TweetsService.like(tweet)
         } catch {
             didLike.toggle()
             tweet.likes -= 1
-            //            self.error = error
-            //
-            //            switch error {
-            //            case .decodingError:
-            //                print("DEBUG: Decoding Error")
-            //            case .serverError(let message):
-            //                print("DEBUG: Failed to like tweet with error: \(message)")
-            //            }
+            self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Failed to like tweet with error: \(message)")
+            }
         }
     }
 
@@ -137,6 +141,23 @@ class TweetViewModel: Codable {
             //            case .serverError(let message):
             //                print("DEBUG: Failed to unlike tweet with error: \(message)")
             //            }
+        }
+    }
+
+    func checkIfTweetIsLiked() async {
+        do throws(NetworkingError) {
+            didLike = try await TweetsService.checkIfTweetIsLiked(tweet)
+        } catch {
+            self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print(
+                    "DEBUG: Faied to check if tweet is liked with error: \(message)"
+                )
+            }
         }
     }
 }
