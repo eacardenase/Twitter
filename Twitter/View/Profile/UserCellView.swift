@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserCellView: View {
-    let viewModel: ProfileViewModel
+    let viewModel: UserViewModel
 
     var body: some View {
         HStack(spacing: 16) {
@@ -33,5 +33,5 @@ struct UserCellView: View {
 }
 
 #Preview {
-    UserCellView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
+    UserCellView(viewModel: UserViewModel(user: MOCK_USERS[0]))
 }

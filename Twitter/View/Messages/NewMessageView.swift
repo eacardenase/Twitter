@@ -18,7 +18,7 @@ struct NewMessageView: View {
             ScrollView {
                 VStack(spacing: 16) {
                     ForEach(viewModel.users) { user in
-                        let profileViewModel = ProfileViewModel(user: user)
+                        let profileViewModel = UserViewModel(user: user)
 
                         Button {
                             dismiss()

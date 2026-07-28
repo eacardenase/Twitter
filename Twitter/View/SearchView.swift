@@ -19,7 +19,7 @@ struct SearchView: View {
                 ScrollView {
                     VStack(spacing: 16) {
                         ForEach(viewModel.users) {
-                            let profileViewModel = ProfileViewModel(user: $0)
+                            let profileViewModel = UserViewModel(user: $0)
 
                             Button {
                                 router.push(.profile(profileViewModel))

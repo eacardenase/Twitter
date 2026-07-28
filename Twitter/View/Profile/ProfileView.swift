@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @Bindable var viewModel: ProfileViewModel
+    @Bindable var viewModel: UserViewModel
     @State private var selectedOption: TweetFilterOption = .all
 
     var body: some View {
@@ -32,7 +32,7 @@ struct ProfileView: View {
 
 #Preview {
     NavigationStack {
-        ProfileView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
+        ProfileView(viewModel: UserViewModel(user: MOCK_USERS[0]))
             .environment(Router())
     }
 }

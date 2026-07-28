@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileStatisticsView: View {
-    @Bindable var viewModel: ProfileViewModel
+    @Bindable var viewModel: UserViewModel
 
     var body: some View {
         HStack(spacing: 32) {
@@ -35,5 +35,5 @@ struct ProfileStatisticsView: View {
 }
 
 #Preview {
-    ProfileStatisticsView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
+    ProfileStatisticsView(viewModel: UserViewModel(user: MOCK_USERS[0]))
 }

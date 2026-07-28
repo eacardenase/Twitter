@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
-    @Bindable var viewModel: ProfileViewModel
+    @Bindable var viewModel: UserViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,6 +38,6 @@ struct ProfileHeaderView: View {
 }
 
 #Preview {
-    ProfileHeaderView(viewModel: ProfileViewModel(user: MOCK_USERS[0]))
+    ProfileHeaderView(viewModel: UserViewModel(user: MOCK_USERS[0]))
         .environment(Router())
 }

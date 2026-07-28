@@ -1,5 +1,5 @@
 //
-//  ProfileViewModel.swift
+//  UserViewModel.swift
 //  Twitter
 //
 //  Created by Edwin Cardenas on 7/18/26.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @Observable
-class ProfileViewModel: Codable {
+class UserViewModel: Codable {
     private(set) var user: User
     var error: Error?
     var isFollowed = false
@@ -131,8 +131,8 @@ class ProfileViewModel: Codable {
 
 // MARK: - Hashable
 
-extension ProfileViewModel: Hashable {
-    static func == (lhs: ProfileViewModel, rhs: ProfileViewModel) -> Bool {
+extension UserViewModel: Hashable {
+    static func == (lhs: UserViewModel, rhs: UserViewModel) -> Bool {
         lhs.user == rhs.user
     }
 
