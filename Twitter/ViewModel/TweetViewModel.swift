@@ -129,18 +129,18 @@ class TweetViewModel: Codable {
             didLike.toggle()
             tweet.likes -= 1
 
-            //            try TweetsService.unlike(tweet)
+            try await TweetsService.unlike(tweet)
         } catch {
             didLike.toggle()
             tweet.likes += 1
-            //            self.error = error
-            //
-            //            switch error {
-            //            case .decodingError:
-            //                print("DEBUG: Decoding Error")
-            //            case .serverError(let message):
-            //                print("DEBUG: Failed to unlike tweet with error: \(message)")
-            //            }
+            self.error = error
+
+            switch error {
+            case .decodingError:
+                print("DEBUG: Decoding Error")
+            case .serverError(let message):
+                print("DEBUG: Failed to unlike tweet with error: \(message)")
+            }
         }
     }
 

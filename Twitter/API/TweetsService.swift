@@ -55,28 +55,38 @@ struct TweetsService {
             )
 
             try Firestore.firestore()
-                .collection("tweets")
-                .document(tweet.id)
-                .collection("tweet-likes")
-                .document(currentUserId)
+                .collection("tweets").document(tweet.id)
+                .collection("tweet-likes").document(currentUserId)
                 .setData(from: currentUser)
 
             try Firestore.firestore()
-                .collection("users")
-                .document(currentUserId)
-                .collection("tweet-likes")
-                .document(tweet.id)
+                .collection("users").document(currentUserId)
+                .collection("tweet-likes").document(tweet.id)
                 .setData(from: tweet)
         } catch {
             throw .serverError(error.localizedDescription)
         }
     }
 
-    static func unlike(_ tweet: Tweet) throws(NetworkingError) {
+    static func unlike(_ tweet: Tweet) async throws(NetworkingError) {
         guard let currentUserId = AuthService.currentUserId else {
             throw NetworkingError.serverError(
                 "Failed to get user, current user is nil."
             )
+        }
+
+        do {
+            try await Firestore.firestore()
+                .collection("tweets").document(tweet.id)
+                .collection("tweet-likes").document(currentUserId)
+                .delete()
+
+            try await Firestore.firestore()
+                .collection("users").document(currentUserId)
+                .collection("tweet-likes").document(tweet.id)
+                .delete()
+        } catch {
+            throw NetworkingError.serverError(error.localizedDescription)
         }
     }
 
