@@ -7,11 +7,29 @@
 
 import SwiftUI
 
+struct TweetFilterView: View {
+    let tweets: [Tweet]
+    @Environment(Router.self) var router
+
+    var body: some View {
+        ForEach(tweets) { tweet in
+            let tweetViewModel = TweetViewModel(tweet: tweet)
+
+            Button {
+                router.push(.tweet(tweetViewModel))
+            } label: {
+                TweetCellView(viewModel: tweetViewModel)
+            }
+            .buttonStyle(.plain)
+        }
+        .padding(.horizontal)
+    }
+}
+
 struct ProfileView: View {
     @Bindable var viewModel: UserViewModel
     @State private var selectedOption: TweetFilterOption = .all
     @State private var tweets = [Tweet]()
-    @Environment(Router.self) var router
 
     var body: some View {
         ScrollView {
@@ -20,17 +38,15 @@ struct ProfileView: View {
 
                 FilterButtonView(selectedOption: $selectedOption)
 
-                ForEach(viewModel.userTweets) { tweet in
-                    let tweetViewModel = TweetViewModel(tweet: tweet)
-
-                    Button {
-                        router.push(.tweet(tweetViewModel))
-                    } label: {
-                        TweetCellView(viewModel: tweetViewModel)
+                Group {
+                    if selectedOption == .likes {
+                        TweetFilterView(tweets: viewModel.likedTweets)
+                    } else if selectedOption == .all {
+                        TweetFilterView(tweets: viewModel.userTweets)
+                    } else {
+                        TweetFilterView(tweets: [])
                     }
-                    .buttonStyle(.plain)
                 }
-                .padding(.horizontal)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
