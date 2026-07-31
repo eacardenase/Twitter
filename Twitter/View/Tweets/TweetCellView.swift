@@ -9,15 +9,24 @@ import SwiftUI
 
 struct TweetCellView: View {
     @Bindable var viewModel: TweetViewModel
+    @Environment(Router.self) var router
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 16) {
-                UserProfileImageView(
-                    url: viewModel.profileImageUrl,
-                    width: 56,
-                    height: 56
-                )
+                Button {
+                    let userViewModel = UserViewModel(
+                        user: viewModel.tweet.user
+                    )
+
+                    router.push(.profile(userViewModel))
+                } label: {
+                    UserProfileImageView(
+                        url: viewModel.profileImageUrl,
+                        width: 56,
+                        height: 56
+                    )
+                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     HStack {
@@ -26,7 +35,7 @@ struct TweetCellView: View {
                             .lineLimit(1)
 
                         Spacer()
-                        
+
                         Group {
                             Text("@\(viewModel.username)")
 
