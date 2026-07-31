@@ -21,16 +21,26 @@ struct TweetFilterView: View {
     }
 
     var body: some View {
-        ForEach(tweets) { tweet in
-            let tweetViewModel = TweetViewModel(tweet: tweet)
+        Group {
+            if tweets.isEmpty {
+                ContentUnavailableView(
+                    "Upps...",
+                    systemImage: "info.circle",
+                    description: Text("There are no tweets to show")
+                )
+            } else {
+                ForEach(tweets) { tweet in
+                    let tweetViewModel = TweetViewModel(tweet: tweet)
 
-            Button {
-                router.push(.tweet(tweetViewModel))
-            } label: {
-                TweetCellView(viewModel: tweetViewModel)
+                    Button {
+                        router.push(.tweet(tweetViewModel))
+                    } label: {
+                        TweetCellView(viewModel: tweetViewModel)
+                    }
+                    .buttonStyle(.plain)
+                }
+                .padding(.horizontal)
             }
-            .buttonStyle(.plain)
         }
-        .padding(.horizontal)
     }
 }

@@ -17,12 +17,6 @@ class UserViewModel: Codable {
 
     init(user: User) {
         self.user = user
-
-        Task {
-            await checkIfUserIsFollowed()
-            await fetchUserTweets()
-            await fetchLikedTweets()
-        }
     }
 
     // MARK: - Codable
@@ -132,7 +126,13 @@ class UserViewModel: Codable {
         }
     }
 
-    func fetchUserTweets() async {
+    func loadUserData() async {
+        await checkIfUserIsFollowed()
+        await fetchUserTweets()
+        await fetchLikedTweets()
+    }
+
+    private func fetchUserTweets() async {
         do throws(NetworkingError) {
             self.userTweets = try await TweetsService.fetchTweetsFor(user)
         } catch {
@@ -140,9 +140,11 @@ class UserViewModel: Codable {
         }
     }
 
-    func fetchLikedTweets() async {
+    private func fetchLikedTweets() async {
         do {
-            self.likedTweets = try await TweetsService.fetchLikedTweets(for: user)
+            self.likedTweets = try await TweetsService.fetchLikedTweets(
+                for: user
+            )
         } catch {
             self.error = error
         }

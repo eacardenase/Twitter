@@ -10,11 +10,10 @@ import SwiftUI
 struct ProfileView: View {
     @Bindable var viewModel: UserViewModel
     @State private var selectedOption: TweetFilterOption = .all
-    @State private var tweets = [Tweet]()
 
     var body: some View {
         ScrollView {
-            VStack {
+            LazyVStack {
                 ProfileHeaderView(viewModel: viewModel)
 
                 FilterButtonView(selectedOption: $selectedOption)
@@ -28,6 +27,11 @@ struct ProfileView: View {
         .navigationTitle(viewModel.username)
         .navigationBarTitleDisplayMode(.inline)
         .scrollIndicators(.never)
+        .onAppear {
+            Task {
+                await viewModel.loadUserData()
+            }
+        }
     }
 }
 
