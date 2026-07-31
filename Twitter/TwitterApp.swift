@@ -25,12 +25,18 @@ struct TwitterApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @State private var router = Router()
     @State private var authViewModel = AuthViewModel()
+    @Environment(\.scenePhase) var scenePhase
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(router)
                 .environment(authViewModel)
+                .onChange(of: scenePhase) { oldPhase, newPhase in
+                    if newPhase == .inactive || newPhase == .background {
+                        router.save()
+                    }
+                }
         }
     }
 }
