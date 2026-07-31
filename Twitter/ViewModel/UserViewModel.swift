@@ -12,12 +12,16 @@ class UserViewModel: Codable {
     private(set) var user: User
     var error: Error?
     var isFollowed = false
+    var userTweets = [Tweet]()
+    var likedTweets = [Tweet]()
 
     init(user: User) {
         self.user = user
 
         Task {
             await checkIfUserIsFollowed()
+            await fetchUserTweets()
+            await fetchLikedTweets()
         }
     }
 
@@ -125,6 +129,22 @@ class UserViewModel: Codable {
                     "DEBUG: Faied to check if user is followed with error: \(message)"
                 )
             }
+        }
+    }
+
+    func fetchUserTweets() async {
+        do throws(NetworkingError) {
+            self.userTweets = try await TweetsService.fetchTweetsFor(user)
+        } catch {
+            self.error = error
+        }
+    }
+
+    func fetchLikedTweets() async {
+        do {
+            self.likedTweets = try await TweetsService.fetchLikedTweets(for: user)
+        } catch {
+            self.error = error
         }
     }
 }

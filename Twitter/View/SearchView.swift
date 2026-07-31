@@ -17,7 +17,7 @@ struct SearchView: View {
         Group {
             if !viewModel.users.isEmpty {
                 ScrollView {
-                    VStack(spacing: 16) {
+                    LazyVStack(spacing: 16) {
                         ForEach(viewModel.users) {
                             let profileViewModel = UserViewModel(user: $0)
 

@@ -39,7 +39,37 @@ struct TweetsService {
     static func fetchTweetsFor(_ user: User)
         async throws(NetworkingError) -> [Tweet]
     {
-        return []
+        do {
+            let querySnapshot = try await Firestore.firestore().collection(
+                "tweets"
+            )
+            .whereField("user.id", isEqualTo: user.id)
+            .getDocuments()
+
+            return querySnapshot.documents.compactMap {
+                try? $0.data(as: Tweet.self)
+            }
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
+    }
+
+    static func fetchLikedTweets(for user: User) async throws(NetworkingError)
+        -> [Tweet]
+    {
+        do {
+            let querySnapshot = try await Firestore.firestore().collection(
+                "users"
+            ).document(user.id)
+                .collection("tweet-likes")
+                .getDocuments()
+
+            return querySnapshot.documents.compactMap {
+                try? $0.data(as: Tweet.self)
+            }
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
     }
 
     static func like(_ tweet: Tweet) async throws(NetworkingError) {

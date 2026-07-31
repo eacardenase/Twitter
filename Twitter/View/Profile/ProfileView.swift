@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @Bindable var viewModel: UserViewModel
     @State private var selectedOption: TweetFilterOption = .all
+    @State private var tweets = [Tweet]()
 
     var body: some View {
         ScrollView {
@@ -18,10 +19,10 @@ struct ProfileView: View {
 
                 FilterButtonView(selectedOption: $selectedOption)
 
-                //                ForEach(0..<10) { _ in
-                //                    TweetCellView()
-                //                }
-                //                .padding(.horizontal)
+                ForEach(viewModel.userTweets) {
+                    TweetCellView(viewModel: TweetViewModel(tweet: $0))
+                }
+                .padding(.horizontal)
             }
         }
         .scrollBounceBehavior(.basedOnSize)
