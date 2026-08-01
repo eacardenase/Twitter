@@ -69,6 +69,8 @@ struct FollowingService {
             )
         }
 
+        guard currentUserId != user.id else { return false }
+
         do {
             let snapshot = try await Firestore.firestore()
                 .collection("following").document(currentUserId)
