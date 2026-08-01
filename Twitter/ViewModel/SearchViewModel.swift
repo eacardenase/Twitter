@@ -29,8 +29,6 @@ class SearchViewModel {
     }
 
     func fetchUsers() async {
-        guard !query.isEmpty, query.count >= 3 else { return }
-
         isLoading = true
         defer { isLoading = false }
 

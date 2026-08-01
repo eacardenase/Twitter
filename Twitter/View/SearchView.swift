@@ -13,7 +13,7 @@ struct SearchView: View {
 
     var body: some View {
         Group {
-            if !viewModel.users.isEmpty {
+            if !viewModel.filteredUsers.isEmpty {
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         ForEach(viewModel.filteredUsers) {
