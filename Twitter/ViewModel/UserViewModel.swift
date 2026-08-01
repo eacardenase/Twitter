@@ -109,6 +109,21 @@ class UserViewModel: Codable {
         }
     }
 
+    func loadUserData() async {
+        await fetchUserData()
+        await checkIfUserIsFollowed()
+        await fetchUserTweets()
+        await fetchLikedTweets()
+    }
+
+    func fetchUserData() async {
+        do throws(NetworkingError) {
+            user = try await UserService.fetchUser(withId: user.id)
+        } catch {
+            self.error = error
+        }
+    }
+
     func checkIfUserIsFollowed() async {
         do throws(NetworkingError) {
             isFollowed = try await FollowingService.checkIfUserIsFollowed(user)
@@ -124,12 +139,6 @@ class UserViewModel: Codable {
                 )
             }
         }
-    }
-
-    func loadUserData() async {
-        await checkIfUserIsFollowed()
-        await fetchUserTweets()
-        await fetchLikedTweets()
     }
 
     private func fetchUserTweets() async {

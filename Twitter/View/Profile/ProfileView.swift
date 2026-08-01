@@ -27,10 +27,8 @@ struct ProfileView: View {
         .navigationTitle(viewModel.username)
         .navigationBarTitleDisplayMode(.inline)
         .scrollIndicators(.never)
-        .onAppear {
-            Task {
-                await viewModel.loadUserData()
-            }
+        .task {
+            await viewModel.loadUserData()
         }
     }
 }
