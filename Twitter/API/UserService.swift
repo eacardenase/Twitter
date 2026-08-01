@@ -36,7 +36,7 @@ struct UserService {
     }
 
     static func fetchUsers() async throws(NetworkingError) -> [User] {
-        guard let currentUserId = AuthService.currentUserId else {
+        guard AuthService.currentUserId != nil else {
             throw NetworkingError.serverError("currentUserId is nil")
         }
 
@@ -44,7 +44,6 @@ struct UserService {
             let querySnapshot = try await Firestore.firestore().collection(
                 "users"
             )
-            .whereField("id", isNotEqualTo: currentUserId)
             .getDocuments()
 
             return querySnapshot.documents.compactMap {

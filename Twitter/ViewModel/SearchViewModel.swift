@@ -12,8 +12,25 @@ class SearchViewModel {
     var error: Error?
     var isLoading = false
     var users = [User]()
+    var searchText: String = ""
+    var query: String {
+        searchText.lowercased()
+    }
+
+    var filteredUsers: [User] {
+        if query.isEmpty {
+            return users
+        }
+
+        return users.filter {
+            $0.username.contains(query)
+                || $0.fullname.lowercased().contains(query)
+        }
+    }
 
     func fetchUsers() async {
+        guard !query.isEmpty, query.count >= 3 else { return }
+
         isLoading = true
         defer { isLoading = false }
 

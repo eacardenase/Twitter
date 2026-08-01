@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State private var searchText = ""
     @Environment(Router.self) var router
-    @State private var users = [User]()
     @State private var viewModel = SearchViewModel()
 
     var body: some View {
@@ -18,7 +16,7 @@ struct SearchView: View {
             if !viewModel.users.isEmpty {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(viewModel.users) {
+                        ForEach(viewModel.filteredUsers) {
                             let profileViewModel = UserViewModel(user: $0)
 
                             Button {
@@ -39,10 +37,10 @@ struct SearchView: View {
         }
         .scrollIndicators(.never)
         .padding(.horizontal)
-        .searchable(text: $searchText)
+        .searchable(text: $viewModel.searchText)
         .navigationTitle("Search")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
+        .onChange(of: viewModel.searchText) { oldValue, newValue in
             Task {
                 await viewModel.fetchUsers()
             }
