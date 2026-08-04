@@ -13,20 +13,32 @@ struct ConversationsView: View {
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                VStack {
-                    ForEach(MOCK_CONVERSATIONS) { conversation in
-                        Button {
-                            router.push(.conversation(conversation))
-                        } label: {
-                            ConversationCellView(conversation: conversation)
+            Group {
+                if !MOCK_CONVERSATIONS.isEmpty {
+                    ScrollView {
+                        VStack {
+                            ForEach(MOCK_CONVERSATIONS) { conversation in
+                                Button {
+                                    router.push(.conversation(conversation))
+                                } label: {
+                                    ConversationCellView(
+                                        conversation: conversation
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
                         }
-                        .buttonStyle(.plain)
+                        .padding()
                     }
+                    .scrollIndicators(.never)
+                } else {
+                    ContentUnavailableView(
+                        "No chats found",
+                        systemImage: "info.circle",
+                        description: Text("Try starting a new conversation")
+                    )
                 }
-                .padding()
             }
-            .scrollIndicators(.never)
             .navigationTitle("Messages")
             .navigationBarTitleDisplayMode(.inline)
 
