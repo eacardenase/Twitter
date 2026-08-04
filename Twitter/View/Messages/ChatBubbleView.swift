@@ -8,41 +8,43 @@
 import SwiftUI
 
 struct ChatBubbleView: View {
-    let message: MockMessage
+    let viewModel: MessageViewModel
     let cornerRadius: CGFloat = 16
 
     var body: some View {
         HStack(alignment: .bottom) {
-            if message.isFromCurrentUser {
+            if viewModel.isFromCurrentUser {
                 Spacer()
             } else {
-                Image(message.image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 40, height: 40)
-                    .clipShape(.circle)
+                UserProfileImageView(
+                    url: viewModel.profileImageUrl,
+                    width: 40,
+                    height: 40
+                )
             }
 
-            Text(message.text)
+            Text(viewModel.text)
                 .padding()
-                .foregroundStyle(message.isFromCurrentUser ? .white : .primary)
+                .foregroundStyle(
+                    viewModel.isFromCurrentUser ? .white : .primary
+                )
                 .background(
-                    message.isFromCurrentUser
+                    viewModel.isFromCurrentUser
                         ? Color.blue.gradient
                         : Color(.systemGray4).gradient
                 )
                 .clipShape(
                     UnevenRoundedRectangle(
                         topLeadingRadius: cornerRadius,
-                        bottomLeadingRadius: message.isFromCurrentUser
+                        bottomLeadingRadius: viewModel.isFromCurrentUser
                             ? cornerRadius : .zero,
-                        bottomTrailingRadius: message.isFromCurrentUser
+                        bottomTrailingRadius: viewModel.isFromCurrentUser
                             ? .zero : cornerRadius,
                         topTrailingRadius: cornerRadius,
                     )
                 )
 
-            if !message.isFromCurrentUser {
+            if !viewModel.isFromCurrentUser {
                 Spacer()
             }
         }
@@ -50,5 +52,5 @@ struct ChatBubbleView: View {
 }
 
 #Preview {
-    ChatBubbleView(message: MOCK_MESSAGES[0])
+    ChatBubbleView(viewModel: MessageViewModel(message: MOCK_MESSAGES[0]))
 }

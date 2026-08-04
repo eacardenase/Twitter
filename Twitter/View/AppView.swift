@@ -51,8 +51,8 @@ struct AppView: View {
         switch route {
         case .tweet(let tweetViewModel):
             TweetDetailsView(viewModel: tweetViewModel)
-        case .conversation(let conversation):
-            ChatView(conversation: conversation)
+        case .chat(let chatViewModel):
+            ChatView(viewModel: chatViewModel)
         case .profile(let userViewModel):
             ProfileView(viewModel: userViewModel)
         }

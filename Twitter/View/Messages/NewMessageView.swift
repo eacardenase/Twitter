@@ -19,17 +19,13 @@ struct NewMessageView: View {
                 VStack(spacing: 16) {
                     ForEach(viewModel.users) { user in
                         let profileViewModel = UserViewModel(user: user)
+                        let chatViewModel = ChatViewModel(user: user)
 
                         Button {
                             dismiss()
 
                             Task { @MainActor in
-                                let conversation = Conversation(
-                                    user: user,
-                                    messages: []
-                                )
-
-                                router.push(.conversation(conversation))
+                                router.push(.chat(chatViewModel))
                             }
                         } label: {
                             UserCellView(viewModel: profileViewModel)

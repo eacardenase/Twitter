@@ -37,12 +37,9 @@ struct ProfileActionView: View {
                     .tint(.blue)
 
                     ProfileActionButton(title: "Message") {
-                        let conversation = Conversation(
-                            user: viewModel.user,
-                            messages: []
-                        )
+                        let chatViewModel = ChatViewModel(user: viewModel.user)
 
-                        router.push(.conversation(conversation))
+                        router.push(.chat(chatViewModel))
                     }
                     .tint(.purple)
                 }

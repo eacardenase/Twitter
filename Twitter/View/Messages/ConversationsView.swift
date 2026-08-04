@@ -9,17 +9,22 @@ import SwiftUI
 
 struct ConversationsView: View {
     @State private var showSearchViewSheet = false
+    @State private var viewModel = ConversationViewModel()
     @Environment(Router.self) private var router
 
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             Group {
-                if !MOCK_CONVERSATIONS.isEmpty {
+                if !viewModel.isEmpty {
                     ScrollView {
                         VStack {
-                            ForEach(MOCK_CONVERSATIONS) { conversation in
+                            ForEach(viewModel.conversations) { conversation in
+                                let chatViewModel = ChatViewModel(
+                                    user: conversation.user
+                                )
+
                                 Button {
-                                    router.push(.conversation(conversation))
+                                    router.push(.chat(chatViewModel))
                                 } label: {
                                     ConversationCellView(
                                         conversation: conversation

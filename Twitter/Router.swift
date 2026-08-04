@@ -14,7 +14,7 @@ enum AppTab: Codable, Hashable {
 }
 
 enum Route: Codable, Hashable {
-    case conversation(Conversation)
+    case chat(ChatViewModel)
     case profile(UserViewModel)
     case tweet(TweetViewModel)
 }
