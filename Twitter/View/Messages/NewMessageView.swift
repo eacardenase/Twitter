@@ -14,27 +14,36 @@ struct NewMessageView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(viewModel.filteredUsers) { user in
-                        let profileViewModel = UserViewModel(user: user)
-                        let chatViewModel = ChatViewModel(user: user)
+            Group {
+                if !viewModel.isEmpty {
+                    ScrollView {
+                        VStack(spacing: 16) {
+                            ForEach(viewModel.filteredUsers) { user in
+                                let profileViewModel = UserViewModel(user: user)
+                                let chatViewModel = ChatViewModel(user: user)
 
-                        Button {
-                            dismiss()
+                                Button {
+                                    dismiss()
 
-                            Task { @MainActor in
-                                router.push(.chat(chatViewModel))
+                                    Task { @MainActor in
+                                        router.push(.chat(chatViewModel))
+                                    }
+                                } label: {
+                                    UserCellView(viewModel: profileViewModel)
+                                }
+                                .buttonStyle(.plain)
                             }
-                        } label: {
-                            UserCellView(viewModel: profileViewModel)
                         }
-                        .buttonStyle(.plain)
                     }
+                    .scrollIndicators(.never)
+                    .padding(.horizontal)
+                } else {
+                    ContentUnavailableView(
+                        "No users found",
+                        systemImage: "magnifyingglass"
+                    )
                 }
             }
-            .scrollIndicators(.never)
-            .padding(.horizontal)
             .searchable(text: $viewModel.searchText)
             .navigationTitle("New Message")
             .navigationBarTitleDisplayMode(.inline)

@@ -17,6 +17,16 @@ class SearchViewModel {
         searchText.lowercased()
     }
 
+    init() {
+        Task {
+            await fetchUsers()
+        }
+    }
+
+    var isEmpty: Bool {
+        filteredUsers.isEmpty
+    }
+
     var filteredUsers: [User] {
         if query.isEmpty {
             return users
