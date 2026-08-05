@@ -80,14 +80,14 @@ struct MessagingService {
                 .collection("messages")
                 .document(currentUserId)
                 .collection("recent-messages")
-                .document(message.id)
+                .document(user.id)
                 .setData(from: conversation)
 
             try Firestore.firestore()
                 .collection("messages")
                 .document(user.id)
                 .collection("recent-messages")
-                .document(message.id)
+                .document(currentUserId)
                 .setData(from: conversation)
 
             return message
