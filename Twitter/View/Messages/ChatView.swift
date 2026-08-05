@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct ChatView: View {
-    @State private var textInput = ""
-    @Environment(AuthViewModel.self) var authViewModel
-    var viewModel: ChatViewModel
+    @Bindable var viewModel: ChatViewModel
 
     var body: some View {
         VStack {
@@ -24,20 +22,9 @@ struct ChatView: View {
 
             Divider()
 
-            MessageInputView(text: $textInput) {
-                guard let currentUser = authViewModel.user else { return }
-
-                let message = Message(
-                    fromId: currentUser.id,
-                    toId: viewModel.user.id,
-                    text: textInput,
-                    createdAt: .now
-                )
-
+            MessageInputView(text: $viewModel.newMessageText) {
                 Task {
-                    await viewModel.send(message)
-
-                    textInput = ""
+                    await viewModel.sendNewMessage()
                 }
             }
         }

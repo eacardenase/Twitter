@@ -34,15 +34,22 @@ struct MessagingService {
         }
     }
 
-    static func send(
-        _ message: Message,
+    static func sendMessage(
+        with text: String,
         to user: User
-    ) async throws(NetworkingError) {
+    ) async throws(NetworkingError) -> Message {
         guard let currentUserId = AuthService.currentUserId else {
             throw NetworkingError.serverError(
                 "Failed to get user, current user is nil."
             )
         }
+
+        let message = Message(
+            fromId: currentUserId,
+            toId: user.id,
+            text: text,
+            createdAt: .now
+        )
 
         do {
             try Firestore.firestore()
@@ -70,6 +77,8 @@ struct MessagingService {
                 .collection("recent-messages")
                 .document(message.id)
                 .setData(from: message)
+
+            return message
         } catch {
             throw .serverError(error.localizedDescription)
         }

@@ -11,6 +11,7 @@ import SwiftUI
 class ChatViewModel: Codable {
     let user: User
     var error: Error?
+    var newMessageText: String = ""
     var messages = [Message]()
 
     // MARK: - Codable
@@ -45,11 +46,16 @@ class ChatViewModel: Codable {
 
     func fetchMessages() {}
 
-    func send(_ message: Message) async {
+    func sendNewMessage() async {
         do {
-            try await MessagingService.send(message, to: user)
+            let newMessage = try await MessagingService.sendMessage(
+                with: newMessageText,
+                to: user
+            )
 
-            messages.append(message)
+            messages.append(newMessage)
+
+            newMessageText = ""
         } catch {
             self.error = error
         }
