@@ -25,6 +25,10 @@ class ConversationCellViewModel {
             : conversation.fromUser.profileImageUrl
     }
 
+    var chatPartner: User {
+        isFromCurrentUser ? conversation.toUser : conversation.fromUser
+    }
+
     var username: String {
         isFromCurrentUser
             ? conversation.toUser.username

@@ -18,14 +18,13 @@ struct ConversationsView: View {
                 if !viewModel.isEmpty {
                     ScrollView {
                         VStack {
-                            ForEach(viewModel.conversations) { conversation in
-                                let chatViewModel = ChatViewModel(
-                                    user: conversation.fromUser
-                                )
+                            ForEach(viewModel.conversations) {
                                 let conversationCellViewModel =
-                                    ConversationCellViewModel(
-                                        conversation: conversation
-                                    )
+                                    ConversationCellViewModel(conversation: $0)
+
+                                let chatViewModel = ChatViewModel(
+                                    user: conversationCellViewModel.chatPartner
+                                )
 
                                 Button {
                                     router.push(.chat(chatViewModel))
