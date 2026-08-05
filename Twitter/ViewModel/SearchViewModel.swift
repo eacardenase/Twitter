@@ -11,7 +11,7 @@ import Foundation
 class SearchViewModel {
     var error: Error?
     var isLoading = false
-    var users = [User]()
+    private var users = [User]()
     var searchText: String = ""
     var query: String {
         searchText.lowercased()

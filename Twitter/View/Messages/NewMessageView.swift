@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct NewMessageView: View {
-    @State private var searchText = ""
     @State private var viewModel = SearchViewModel()
     @Environment(\.dismiss) var dismiss
     @Environment(Router.self) private var router
@@ -17,7 +16,7 @@ struct NewMessageView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
-                    ForEach(viewModel.users) { user in
+                    ForEach(viewModel.filteredUsers) { user in
                         let profileViewModel = UserViewModel(user: user)
                         let chatViewModel = ChatViewModel(user: user)
 
@@ -36,9 +35,14 @@ struct NewMessageView: View {
             }
             .scrollIndicators(.never)
             .padding(.horizontal)
-            .searchable(text: $searchText)
+            .searchable(text: $viewModel.searchText)
             .navigationTitle("New Message")
             .navigationBarTitleDisplayMode(.inline)
+            .onChange(of: viewModel.searchText) { oldValue, newValue in
+                Task {
+                    await viewModel.fetchUsers()
+                }
+            }
         }
 
     }
