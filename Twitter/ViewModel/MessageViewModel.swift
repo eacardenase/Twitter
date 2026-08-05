@@ -16,7 +16,7 @@ class MessageViewModel {
             return false
         }
 
-        return message.fromId == currentUserId
+        return message.fromUserId == currentUserId
     }
 
     var text: String {
@@ -24,7 +24,7 @@ class MessageViewModel {
     }
 
     var profileImageUrl: URL {
-        URL(string: "")!
+        message.fromUserProfileImageUrl
     }
 
     init(message: Message) {

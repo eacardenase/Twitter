@@ -44,9 +44,15 @@ struct MessagingService {
             )
         }
 
+        let currentUser = try await UserService.fetchUser(
+            withId: currentUserId
+        )
+
         let message = Message(
-            fromId: currentUserId,
-            toId: user.id,
+            fromUserId: currentUserId,
+            fromUserProfileImageUrl: currentUser.profileImageUrl,
+            toUserId: user.id,
+            toUserProfileImageUrl: user.profileImageUrl,
             text: text,
             createdAt: .now
         )
