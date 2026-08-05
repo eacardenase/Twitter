@@ -22,11 +22,7 @@ struct ChatView: View {
 
             Divider()
 
-            MessageInputView(text: $viewModel.newMessageText) {
-                Task {
-                    await viewModel.sendNewMessage()
-                }
-            }
+            MessageInputView(viewModel: viewModel)
         }
         .navigationTitle(viewModel.user.username)
         .navigationBarTitleDisplayMode(.inline)

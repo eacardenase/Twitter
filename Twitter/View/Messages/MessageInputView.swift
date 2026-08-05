@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct MessageInputView: View {
-    @Binding var text: String
-    let action: () -> Void
+    @Bindable var viewModel: ChatViewModel
 
     var body: some View {
         HStack {
-            TextField("Message...", text: $text)
+            TextField("Message...", text: $viewModel.text)
 
             Button {
-                action()
+                Task {
+                    await viewModel.sendNewMessage()
+                }
             } label: {
                 Text("Send")
                     .fontWeight(.bold)
@@ -28,7 +29,5 @@ struct MessageInputView: View {
 }
 
 #Preview {
-    MessageInputView(text: .constant("")) {
-        //
-    }
+    MessageInputView(viewModel: ChatViewModel(user: MOCK_USERS[0]))
 }
