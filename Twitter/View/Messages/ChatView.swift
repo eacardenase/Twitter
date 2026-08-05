@@ -32,6 +32,9 @@ struct ChatView: View {
         .navigationBarTitleDisplayMode(.inline)
         .padding(.horizontal)
         .scrollIndicators(.never)
+        .task {
+            await viewModel.fetchMessages()
+        }
     }
 }
 

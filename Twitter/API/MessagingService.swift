@@ -83,4 +83,29 @@ struct MessagingService {
             throw .serverError(error.localizedDescription)
         }
     }
+
+    static func fetchMessages(
+        for user: User
+    ) async throws(NetworkingError) -> [Message] {
+        guard let currentUserId = AuthService.currentUserId else {
+            throw NetworkingError.serverError(
+                "Failed to get user, current user is nil."
+            )
+        }
+
+        do {
+            let querySnapshot = try await Firestore.firestore()
+                .collection("messages")
+                .document(currentUserId)
+                .collection(user.id)
+                .order(by: "createdAt")
+                .getDocuments()
+
+            return querySnapshot.documents.compactMap {
+                try? $0.data(as: Message.self)
+            }
+        } catch {
+            throw .serverError(error.localizedDescription)
+        }
+    }
 }

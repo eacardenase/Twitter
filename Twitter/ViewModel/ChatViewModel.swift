@@ -44,7 +44,13 @@ class ChatViewModel: Codable {
         self.user = user
     }
 
-    func fetchMessages() {}
+    func fetchMessages() async {
+        do {
+            messages = try await MessagingService.fetchMessages(for: user)
+        } catch {
+            self.error = error
+        }
+    }
 
     func sendNewMessage() async {
         do {
