@@ -48,6 +48,8 @@ class ChatViewModel: Codable {
     func send(_ message: Message) async {
         do {
             try await MessagingService.send(message, to: user)
+
+            messages.append(message)
         } catch {
             self.error = error
         }

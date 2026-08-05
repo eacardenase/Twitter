@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     @State private var textInput = ""
+    @Environment(AuthViewModel.self) var authViewModel
     var viewModel: ChatViewModel
 
     var body: some View {
@@ -24,7 +25,20 @@ struct ChatView: View {
             Divider()
 
             MessageInputView(text: $textInput) {
-                // TODO: Send message
+                guard let currentUser = authViewModel.user else { return }
+
+                let message = Message(
+                    fromId: currentUser.id,
+                    toId: viewModel.user.id,
+                    text: textInput,
+                    createdAt: .now
+                )
+
+                Task {
+                    await viewModel.send(message)
+
+                    textInput = ""
+                }
             }
         }
         .navigationTitle(viewModel.user.username)
