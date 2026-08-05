@@ -10,12 +10,17 @@ import SwiftUI
 @Observable
 class ConversationViewModel {
     var conversations = [Conversation]()
+    var error: Error?
 
     var isEmpty: Bool {
         conversations.isEmpty
     }
 
     func fetchConversations() async {
-
+        do {
+            conversations = try await MessagingService.fetchConversations()
+        } catch {
+            self.error = error
+        }
     }
 }

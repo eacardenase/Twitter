@@ -57,6 +57,12 @@ struct MessagingService {
             createdAt: .now
         )
 
+        let conversation = Conversation(
+            fromUser: currentUser,
+            toUser: user,
+            lastMessage: message
+        )
+
         do {
             try Firestore.firestore()
                 .collection("messages")
@@ -75,14 +81,14 @@ struct MessagingService {
                 .document(currentUserId)
                 .collection("recent-messages")
                 .document(message.id)
-                .setData(from: message)
+                .setData(from: conversation)
 
             try Firestore.firestore()
                 .collection("messages")
                 .document(user.id)
                 .collection("recent-messages")
                 .document(message.id)
-                .setData(from: message)
+                .setData(from: conversation)
 
             return message
         } catch {

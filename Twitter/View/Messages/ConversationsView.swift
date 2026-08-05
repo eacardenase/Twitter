@@ -20,14 +20,18 @@ struct ConversationsView: View {
                         VStack {
                             ForEach(viewModel.conversations) { conversation in
                                 let chatViewModel = ChatViewModel(
-                                    user: conversation.user
+                                    user: conversation.fromUser
                                 )
+                                let conversationCellViewModel =
+                                    ConversationCellViewModel(
+                                        conversation: conversation
+                                    )
 
                                 Button {
                                     router.push(.chat(chatViewModel))
                                 } label: {
                                     ConversationCellView(
-                                        conversation: conversation
+                                        viewModel: conversationCellViewModel
                                     )
                                 }
                                 .buttonStyle(.plain)
@@ -53,6 +57,9 @@ struct ConversationsView: View {
         }
         .sheet(isPresented: $showSearchViewSheet) {
             NewMessageView()
+        }
+        .task {
+            await viewModel.fetchConversations()
         }
     }
 }

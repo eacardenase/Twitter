@@ -8,26 +8,24 @@
 import SwiftUI
 
 struct ConversationCellView: View {
-    let conversation: Conversation
+    @Bindable var viewModel: ConversationCellViewModel
 
     var body: some View {
         VStack {
             HStack(spacing: 16) {
                 UserProfileImageView(
-                    url: conversation.user.profileImageUrl,
+                    url: viewModel.profileImageUrl,
                     width: 56,
                     height: 56
                 )
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(conversation.user.username)
+                    Text(viewModel.username)
                         .font(.subheadline)
                         .fontWeight(.semibold)
 
-                    Text(
-                        "Longer message text to see what happens when I do this"
-                    )
-                    .lineLimit(2, reservesSpace: true)
+                    Text(viewModel.text)
+                        .lineLimit(2, reservesSpace: true)
                 }
 
                 Spacer()
@@ -40,5 +38,9 @@ struct ConversationCellView: View {
 }
 
 #Preview {
-    ConversationCellView(conversation: MOCK_CONVERSATIONS[0])
+    ConversationCellView(
+        viewModel: ConversationCellViewModel(
+            conversation: MOCK_CONVERSATIONS[0]
+        )
+    )
 }

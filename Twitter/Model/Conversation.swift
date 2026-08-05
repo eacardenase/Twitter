@@ -9,12 +9,15 @@ import Foundation
 
 struct Conversation: Identifiable, Hashable, Codable {
     var id = UUID().uuidString
-    let user: User
-    let messages: [Message]
+    let fromUser: User
+    let toUser: User
+    let lastMessage: Message
 }
 
 let MOCK_CONVERSATIONS: [Conversation] = [
-    .init(user: MOCK_USERS[0], messages: MOCK_MESSAGES),
-    .init(user: MOCK_USERS[1], messages: MOCK_MESSAGES),
-    .init(user: MOCK_USERS[2], messages: MOCK_MESSAGES),
+    .init(
+        fromUser: MOCK_USERS[0],
+        toUser: MOCK_USERS[1],
+        lastMessage: MOCK_MESSAGES[0]
+    )
 ]
