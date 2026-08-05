@@ -1,5 +1,5 @@
 //
-//  ConversationViewModel.swift
+//  ConversationsViewModel.swift
 //  Twitter
 //
 //  Created by Edwin Cardenas on 8/3/26.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @Observable
-class ConversationViewModel {
+class ConversationsViewModel {
     var conversations = [Conversation]()
     var error: Error?
 

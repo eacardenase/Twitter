@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConversationsView: View {
     @State private var showSearchViewSheet = false
-    @State private var viewModel = ConversationViewModel()
+    @State private var viewModel = ConversationsViewModel()
     @Environment(Router.self) private var router
 
     var body: some View {
