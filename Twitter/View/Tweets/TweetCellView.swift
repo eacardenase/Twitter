@@ -41,11 +41,7 @@ struct TweetCellView: View {
 
                             Text("•")
 
-                            Text(
-                                viewModel.createdAt.formatted(
-                                    .dateTime.day().month()
-                                )
-                            )
+                            Text(viewModel.formattedDateShort)
                         }
                         .font(.subheadline)
                         .foregroundStyle(.secondary)

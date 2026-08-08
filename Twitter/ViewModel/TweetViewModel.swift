@@ -72,8 +72,14 @@ class TweetViewModel: Codable {
         tweet.likes.formatted()
     }
 
-    var createdAt: Date {
-        tweet.createdAt
+    var formattedDateShort: String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second, .minute, .hour, .day, .weekOfMonth]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+
+        return formatter.string(from: tweet.createdAt, to: .now)
+            ?? tweet.createdAt.formatted(.dateTime.day().month())
     }
 
     var isValid: Bool {
